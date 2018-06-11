@@ -1,0 +1,1 @@
+include ':app', ':steemconnect4j'
