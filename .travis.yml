@@ -3,9 +3,9 @@ jdk: oraclejdk8
 install: true
 
 script:
-./gradlew assemble
-./gradlew check
-./gradlew build
+  - ./gradlew assemble
+  - ./gradlew check
+  - ./gradlew build
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
