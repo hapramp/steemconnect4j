@@ -3,8 +3,6 @@ jdk: oraclejdk8
 install: true
 
 script:
-  - ./gradlew assemble
-  - ./gradlew check
   - ./gradlew build
 
 before_cache:
