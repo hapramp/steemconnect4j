@@ -1,1 +1,1 @@
-include ':app', ':steemconnect4j'
+include ':steemconnect4j'
