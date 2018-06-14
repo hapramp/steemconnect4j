@@ -1,5 +1,6 @@
 apply plugin: 'java-library'
 apply plugin: 'jacoco'
+apply plugin: 'checkstyle'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -8,10 +9,23 @@ dependencies {
 
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
+checkstyle {
+    toolVersion "8.1"
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+}
+task checkstyle(type: Checkstyle) {
+    source 'src/main/java'
+    include '**/*.java'
+    exclude '**/gen/**'
+    // empty classpath
+    classpath = files()
+}
+
 
 jacoco {
     toolVersion = "0.8.1"
 }
+
 jacocoTestReport {
     reports {
         xml.enabled = true
@@ -19,4 +33,5 @@ jacocoTestReport {
     }
 }
 
+check.dependsOn 'checkstyle'
 check.dependsOn jacocoTestReport
