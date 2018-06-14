@@ -1,63 +1,114 @@
 package com.hapramp.steemconnect4j;
 
 public class SteemConnectOptions {
-	public static final String BASE_URL = "https://steemconnect.com";
-	private String baseUrl;
-	private String app;
-	private String state;
-	private String callback;
-	private String[] scope;
-	private String accessToken;
+  public static final String BASE_URL = "https://steemconnect.com";
+  private String baseUrl;
+  private String app;
+  private String state;
+  private String callback;
+  private String[] scope;
+  private String accessToken;
 
-	public SteemConnectOptions() {
-		this.baseUrl = BASE_URL;
-	}
+  /**
+  * SteemConnectOptions class constructor.
+  */
+  public SteemConnectOptions() {
+    this.baseUrl = BASE_URL;
+  }
 
-	public String getBaseUrl() {
-		return baseUrl;
-	}
+  /**
+  * returns base url.
+  * @return baseUrl
+  */
+  public String getBaseUrl() {
+    return baseUrl;
+  }
 
-	public void setBaseUrl(String baseUrl) {
-		this.baseUrl = baseUrl;
-	}
+  /**
+  * sets base url.
+  * @param baseUrl base url
+  */
+  public void setBaseUrl(String baseUrl) {
+    this.baseUrl = baseUrl;
+  }
 
-	public String getApp() {
-		return app;
-	}
+  /**
+  * helper method to get app name.
+  * @return app name
+  */
+  public String getApp() {
+    return app;
+  }
 
-	public void setApp(String app) {
-		this.app = app;
-	}
+  /**
+  * sets app name.
+  * @param app	app name
+  */
+  public void setApp(String app) {
+    this.app = app;
+  }
 
-	public String getCallback() {
-		return callback;
-	}
+  /**
+  * helper method to get callback url.
+  * @return	callback url
+  */
+  public String getCallback() {
+    return callback;
+  }
 
-	public void setCallback(String callback) {
-		this.callback = callback;
-	}
+  /**
+   * sets callback url.
+  * @param callback callback url
+  */
+  public void setCallback(String callback) {
+    this.callback = callback;
+  }
 
-	public String[] getScope() {
-		return scope;
-	}
+  /**
+  * helper method to get scopes for oauth.
+  * @return	array of scopes
+  */
+  public String[] getScope() {
+    return scope;
+  }
 
-	public void setScope(String[] scope) {
-		this.scope = scope;
-	}
+  /**
+  * sets scopes for oauth
+  * @param scope	array of scopes
+  */
+  public void setScope(String[] scope) {
+    this.scope = scope;
+  }
 
-	public String getState() {
-		return state;
-	}
+  /**
+  * helper method to get state
+  * @return	state
+  */
+  public String getState() {
+    return state;
+  }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+  /**
+  * sets state
+  * @param state	state
+  */
+  public void setState(String state) {
+    this.state = state;
+  }
 
-	public String getAccessToken() {
-		return accessToken;
-	}
+  /**
+  * helper method to get accessToken for oauth.
+  * @return accessToken
+  */
+  public String getAccessToken() {
+    return accessToken;
+  }
 
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
-	}
+  /**
+  * sets accessToken.
+  * @param accessToken		accessToken
+  */
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
 }
