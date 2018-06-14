@@ -9,6 +9,9 @@ dependencies {
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 
+jacoco {
+    toolVersion = "0.8.1"
+}
 jacocoTestReport {
     reports {
         xml.enabled = true
