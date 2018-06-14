@@ -5,9 +5,10 @@ public class SteemConnectException extends Exception {
 	public String error;
 	public String description;
 
-	public SteemConnectException(String s, String name) {
-		super(s);
+	public SteemConnectException(String name, String error, String description) {
 		this.name = name;
+		this.error = error;
+		this.description = description;
 	}
 
 	@Override
