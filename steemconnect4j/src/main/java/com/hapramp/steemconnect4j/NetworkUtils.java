@@ -54,7 +54,6 @@ public class NetworkUtils {
         }
       }
     } catch (IOException e) {
-      e.printStackTrace();
       if (steemConnectCallback != null) {
         steemConnectCallback.onError(new SteemConnectException("SteemConnectException",
             "IOException", e.toString()));

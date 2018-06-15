@@ -18,7 +18,7 @@ public class SteemConnect {
   * build login url.
   * @return  login url for oauth.
   */
-  public String getLoginUrl() {
+  public String getLoginUrl() throws SteemConnectException {
     StringBuilder loginUrlBuilder = new StringBuilder();
     try {
       loginUrlBuilder
@@ -37,7 +37,7 @@ public class SteemConnect {
           .append(URLEncoder.encode(steemConnectOptions.getState(),"UTF-8"));
       }
     } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
+      throw new SteemConnectException("LoginUrl","EncodingException",e.toString());
     }
     return loginUrlBuilder.toString();
   }
