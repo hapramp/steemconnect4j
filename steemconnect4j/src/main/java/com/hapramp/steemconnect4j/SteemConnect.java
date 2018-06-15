@@ -75,6 +75,9 @@ public class SteemConnect {
   */
   public void vote(String voter, String author, String permlink, String weight,
                    SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(voter,author,permlink,weight);
+    String operation = StringUtils.getCommanSeparatedArrayString("vote",params);
+    this.broadcast(operation,steemConnectCallback);
   }
 
   public static class InstanceBuilder {
