@@ -1,6 +1,8 @@
 apply plugin: 'java-library'
 apply plugin: 'jacoco'
 apply plugin: 'checkstyle'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.bxute'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
