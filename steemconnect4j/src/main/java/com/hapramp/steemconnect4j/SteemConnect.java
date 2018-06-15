@@ -2,6 +2,7 @@ package com.hapramp.steemconnect4j;
 
 import com.sun.jndi.toolkit.url.UrlUtil;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public class SteemConnect {
   private SteemConnectOptions steemConnectOptions;
@@ -25,7 +26,7 @@ public class SteemConnect {
       .append(steemConnectOptions.getBaseUrl())
           .append("/oauth2/authorize?client_id=").append(steemConnectOptions.getApp())
           .append("&redirect_uri=")
-          .append(UrlUtil.encode(steemConnectOptions.getCallback(),"UTF-8"));
+          .append(URLEncoder.encode(steemConnectOptions.getCallback(),"UTF-8"));
       if (steemConnectOptions.getScope().length > 0) {
         loginUrlBuilder
             .append("&scope=")
@@ -34,7 +35,7 @@ public class SteemConnect {
       }
       if (steemConnectOptions.getState() != null) {
         loginUrlBuilder.append("&state=")
-          .append(UrlUtil.encode(steemConnectOptions.getState(),"UTF-8"));
+          .append(URLEncoder.encode(steemConnectOptions.getState(),"UTF-8"));
       }
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
