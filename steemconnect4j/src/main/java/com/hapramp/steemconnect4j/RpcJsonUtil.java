@@ -1,6 +1,6 @@
 package com.hapramp.steemconnect4j;
 
-public class RPCJsonUtil {
+public class RpcJsonUtil {
 
   /**
     * formats key value pairs.
@@ -18,7 +18,7 @@ public class RPCJsonUtil {
     * @param value  value
     * @return       {"key":"value"}
   */
-  public static String getObjectString(String key , String value){
+  public static String getObjectString(String key, String value) {
     return "{\"" + key + "\":\"" + value + "\"}";
   }
 
@@ -28,7 +28,7 @@ public class RPCJsonUtil {
     * @param value  value
     * @return       ["key":"value"]
   */
-  public static String getArrayString(String key , String value){
+  public static String getArrayString(String key, String value) {
     return "[\"" + key + "\":\"" + value + "\"]";
   }
 }

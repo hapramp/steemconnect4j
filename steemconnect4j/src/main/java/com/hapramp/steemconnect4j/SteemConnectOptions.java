@@ -42,7 +42,7 @@ public class SteemConnectOptions {
 
   /**
   * sets app name.
-  * @param app	app name
+  * @param app   app name
   */
   public void setApp(String app) {
     this.app = app;
@@ -50,7 +50,7 @@ public class SteemConnectOptions {
 
   /**
   * helper method to get callback url.
-  * @return	callback url
+  * @return  callback url
   */
   public String getCallback() {
     return callback;
@@ -66,31 +66,31 @@ public class SteemConnectOptions {
 
   /**
   * helper method to get scopes for oauth.
-  * @return	array of scopes
+  * @return  array of scopes
   */
   public String[] getScope() {
     return scope;
   }
 
   /**
-  * sets scopes for oauth
-  * @param scope	array of scopes
+  * sets scopes for oauth.
+  * @param scope array of scopes
   */
   public void setScope(String[] scope) {
     this.scope = scope;
   }
 
   /**
-  * helper method to get state
-  * @return	state
+  * helper method to get state.
+  * @return  state
   */
   public String getState() {
     return state;
   }
 
   /**
-  * sets state
-  * @param state	state
+  * sets state.
+  * @param state state
   */
   public void setState(String state) {
     this.state = state;
@@ -106,7 +106,7 @@ public class SteemConnectOptions {
 
   /**
   * sets accessToken.
-  * @param accessToken		accessToken
+  * @param accessToken       accessToken
   */
   public void setAccessToken(String accessToken) {
     this.accessToken = accessToken;
