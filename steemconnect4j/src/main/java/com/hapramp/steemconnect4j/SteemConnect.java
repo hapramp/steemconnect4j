@@ -66,7 +66,7 @@ public class SteemConnect {
   }
 
   /**
-  * fetches user information.
+  * fetches user information of logged in user.
   * @param steemConnectCallback  callback for `me` endpoint
   */
   public void me(SteemConnectCallback steemConnectCallback) {
