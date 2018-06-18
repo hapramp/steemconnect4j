@@ -66,6 +66,15 @@ public class SteemConnect {
   }
 
   /**
+  * fetches user information.
+  * @param steemConnectCallback  callback for `me` endpoint
+  */
+  public void me(SteemConnectCallback steemConnectCallback) {
+    this.send(Route.ME,HttpMethod.POST,StringUtils.getCommanSeparatedObjectString(""),
+        steemConnectCallback);
+  }
+
+  /**
   * performs vote.
   * @param voter                   voter
   * @param author                  author of the content
