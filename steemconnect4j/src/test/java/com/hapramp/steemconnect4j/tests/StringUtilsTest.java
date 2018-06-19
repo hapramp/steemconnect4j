@@ -31,6 +31,14 @@ public class StringUtilsTest {
     assertEquals(exp,csas);
   }
 
+  @Test
+  public void test_singleItemInArrayString() {
+    String csas = StringUtils.getCommanSeparatedArrayString("vote");
+    String exp = "[vote]";
+    print(exp,csas);
+    assertEquals(exp,csas);
+  }
+
   private void print(String exp,String actual) {
     System.out.println("Expected: " + exp);
     System.out.println("Actual: " + actual);
