@@ -199,6 +199,25 @@ public class SteemConnect {
     this.broadcast(operations,steemConnectCallback);
   }
 
+  /**
+  * claim reward of user.
+  * @param account                 account name
+  * @param rewardSteem             rewarded Steem
+  * @param rewardSbd               rewarded SBD
+  * @param rewardVests             rewarded vests
+  * @param steemConnectCallback    callback for response
+  */
+  public void claimRewardBalance(String account, String rewardSteem, String rewardSbd,
+                                 String rewardVests, SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(account,
+        RpcJsonUtil.getKeyValuePair("reward_steem",rewardSteem),
+        RpcJsonUtil.getKeyValuePair("reward_sbd", rewardSbd),
+        RpcJsonUtil.getKeyValuePair("reward_vests", rewardVests));
+
+    String operation = StringUtils.getCommanSeparatedArrayString("claim_reward_balance",params);
+    this.broadcast(operation,steemConnectCallback);
+  }
+
   public static class InstanceBuilder {
     SteemConnectOptions steemConnectOptions;
 
