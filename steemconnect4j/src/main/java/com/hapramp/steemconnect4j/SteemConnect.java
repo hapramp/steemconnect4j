@@ -89,6 +89,34 @@ public class SteemConnect {
     this.broadcast(operation,steemConnectCallback);
   }
 
+  /**
+  * create comment on a post.
+  * @param parentAuthor           author of post
+  * @param parentPermlink         parent permlink of post
+  * @param author                 author of comment
+  * @param permlink               permlink of post
+  * @param title                  title of comment
+  * @param body                   body of comment
+  * @param jsonMetaData           jsonmetadata of comment
+  * @param steemConnectCallback   callback for response
+  */
+  public void comment(String parentAuthor, String parentPermlink, String author, String permlink,
+      String title, String body, String jsonMetaData, SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(
+        RpcJsonUtil.getKeyValuePair("parent_author",parentAuthor),
+        RpcJsonUtil.getKeyValuePair("parent_permlink",parentPermlink),
+        author,
+        permlink,
+        title,
+        body,
+        RpcJsonUtil.getKeyValuePair("json_metadata",jsonMetaData)
+    );
+    String operations = StringUtils.getCommanSeparatedArrayString("comment",params);
+    this.broadcast(StringUtils.getCommanSeparatedArrayString(operations),steemConnectCallback);
+  }
+
+
+
   public static class InstanceBuilder {
     SteemConnectOptions steemConnectOptions;
 
