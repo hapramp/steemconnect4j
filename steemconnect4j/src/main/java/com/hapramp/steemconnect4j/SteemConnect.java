@@ -228,6 +228,16 @@ public class SteemConnect {
     this.removeAccessToken();
   }
 
+  /**
+  * updates user metadata.
+  * @param metadata                 updated metadata of user.
+  * @param steemConnectCallback     callback for response
+  */
+  public void updateUserMetaData(String metadata, SteemConnectCallback steemConnectCallback) {
+    this.send(Route.ME, HttpMethod.PUT,RpcJsonUtil.getObjectString("user_metadata",metadata),
+        steemConnectCallback);
+  }
+
   public static class InstanceBuilder {
     SteemConnectOptions steemConnectOptions;
 
