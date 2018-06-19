@@ -12,21 +12,21 @@ import org.junit.Test;
 
 public class StringUtilsTest {
   @Test
-  public void test_getCommaSeparatedString() {
+  public void testGetCommaSeparatedString() {
     String[] testStrings = {"first","second"};
     String res = StringUtils.getCommaSeparatedString(testStrings);
     assertEquals("first,second",res);
   }
 
   @Test
-  public void test_getCommanSeparatedObjectString() {
+  public void testGetCommanSeparatedObjectString() {
     String res = StringUtils
         .getCommanSeparatedObjectString("\"voter\"","\"permlink\"","\"weight\"");
     assertEquals("{\"voter\",\"permlink\",\"weight\"}",res);
   }
 
   @Test
-  public void test_getCommanSeparatedArrayString() {
+  public void testGetCommanSeparatedArrayString() {
     String csos = StringUtils.getCommanSeparatedObjectString("\"voter\"","\"permlink\"");
     String csas = StringUtils.getCommanSeparatedArrayString("\"vote\"",csos);
     String exp = "[\"vote\",{\"voter\",\"permlink\"}]";
@@ -35,7 +35,7 @@ public class StringUtilsTest {
   }
 
   @Test
-  public void test_singleItemInArrayString() {
+  public void testSingleItemInArrayString() {
     String csas = StringUtils.getCommanSeparatedArrayString("vote");
     String exp = "[vote]";
     print(exp,csas);
@@ -43,7 +43,7 @@ public class StringUtilsTest {
   }
 
   @Test
-  public void test_QueryParameterBuilder() {
+  public void testQueryParameterBuilder() {
     String redirectUri = "http://google.com";
     Map<String,String> map = new HashMap<>();
     map.put("auth","allowed");
