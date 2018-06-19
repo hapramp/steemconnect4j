@@ -2,6 +2,7 @@ package com.hapramp.steemconnect4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Map;
 
 public class SteemConnect {
   private SteemConnectOptions steemConnectOptions;
@@ -236,6 +237,20 @@ public class SteemConnect {
   public void updateUserMetaData(String metadata, SteemConnectCallback steemConnectCallback) {
     this.send(Route.ME, HttpMethod.PUT,RpcJsonUtil.getObjectString("user_metadata",metadata),
         steemConnectCallback);
+  }
+
+  /**
+  * format signing url.
+  * @param name            name of signing method
+  * @param params          map of query parameters
+  * @param redirectUri     redirect url after sigining
+  * @return                signing url
+  */
+  public String sign(String name, Map<String,String> params, String redirectUri) {
+    String url = String.format("%s/sign/%s?%s%s", this.steemConnectOptions.getBaseUrl(),
+            name, StringUtils.getQueryParamsFromMap(params),
+            redirectUri != null && redirectUri.length() > 0 ? redirectUri : "");
+    return url;
   }
 
   public static class InstanceBuilder {
