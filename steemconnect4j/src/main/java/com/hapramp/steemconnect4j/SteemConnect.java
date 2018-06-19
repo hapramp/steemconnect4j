@@ -50,7 +50,7 @@ public class SteemConnect {
   * @param body                    body of request
   * @param steemConnectCallback    callback for response
   */
-  public void send(String route, String method, String body, SteemConnectCallback
+  private void send(String route, String method, String body, SteemConnectCallback
       steemConnectCallback) {
     String url = steemConnectOptions.getBaseUrl() + "/api/" + route;
     NetworkUtils.request(url, method, steemConnectOptions.getAccessToken(), body,
@@ -62,7 +62,7 @@ public class SteemConnect {
   * @param operations             operation to be broadcasted
   * @param steemConnectCallback   callback for response
   */
-  public void broadcast(String operations, SteemConnectCallback steemConnectCallback) {
+  private void broadcast(String operations, SteemConnectCallback steemConnectCallback) {
     this.send(Route.BROADCAST, HttpMethod.POST, operations, steemConnectCallback);
   }
 

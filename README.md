@@ -1,6 +1,6 @@
 ## SteemConnect4j  [![](https://jitpack.io/v/hapramp/steemconnect4j.svg)](https://jitpack.io/#hapramp/steemconnect4j)  [![Build Status](https://travis-ci.org/hapramp/steemconnect4j.svg?branch=master)](https://travis-ci.org/hapramp/steemconnect4j) [![codecov](https://codecov.io/gh/hapramp/steemconnect4j/branch/master/graph/badge.svg)](https://codecov.io/gh/hapramp/steemconnect4j)
 A SteemConnect SDK for Java.
-### How to use steemconnect4j ?
+### Using steemconnect4j
 **For Gradle**
 1. Add it in your root build.gradle at the end of repositories:
 ```groovy
@@ -18,7 +18,7 @@ dependencies {
 ```
 
 
-#### How to initialize `SteemConnect`
+#### Initialize `SteemConnect`
 
 ```java
 
