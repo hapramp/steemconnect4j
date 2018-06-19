@@ -120,6 +120,26 @@ public class SteemConnect {
     }
 
     /**
+    * set state of app.
+    * @param state state of the app
+    * @return      instance of InstanceBuilder
+    */
+    public InstanceBuilder setState(String state) {
+      steemConnectOptions.setState(state);
+      return this;
+    }
+
+    /**
+    * set access Token for user.
+    * @param acessToken  accessToken of current user
+    * @return            instance of InstanceBuilder
+    */
+    public InstanceBuilder setAcessToken(String acessToken) {
+      steemConnectOptions.setAccessToken(acessToken);
+      return this;
+    }
+
+    /**
     * sets scopes to steemconnectOptions object.
     * @param scopes  scopes of oauth
     * @return        instance of InstanceBuilder
