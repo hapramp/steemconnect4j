@@ -179,6 +179,25 @@ public class SteemConnect {
     this.broadcast(operations,steemConnectCallback);
   }
 
+  /**
+  * ignore a user.
+  * @param follower               follower
+  * @param following              user to be followed
+  * @param steemConnectCallback   callback for response
+  */
+  public void ignore(String follower, String following, SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(
+        RpcJsonUtil.getKeyValuePair("required_auths","[]"),
+        RpcJsonUtil.getKeyValuePair("required_posting_auths","[" + follower + "]"),
+        RpcJsonUtil.getKeyValuePair("id","follow"),
+        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("follow",
+            StringUtils.getCommanSeparatedObjectString(follower,following,
+            RpcJsonUtil.getKeyValuePair("what","[ignore]"))))
+    );
+
+    String operations = StringUtils.getCommanSeparatedArrayString("custom_json",params);
+    this.broadcast(operations,steemConnectCallback);
+  }
 
   public static class InstanceBuilder {
     SteemConnectOptions steemConnectOptions;
