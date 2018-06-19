@@ -1,8 +1,16 @@
-## SteemConnect4j  [![](https://jitpack.io/v/hapramp/steemconnect4j.svg)](https://jitpack.io/#hapramp/steemconnect4j)  [![Build Status](https://travis-ci.org/hapramp/steemconnect4j.svg?branch=master)](https://travis-ci.org/hapramp/steemconnect4j) [![codecov](https://codecov.io/gh/hapramp/steemconnect4j/branch/master/graph/badge.svg)](https://codecov.io/gh/hapramp/steemconnect4j)
+# SteemConnect4j  [![](https://jitpack.io/v/hapramp/steemconnect4j.svg)](https://jitpack.io/#hapramp/steemconnect4j)  [![Build Status](https://travis-ci.org/hapramp/steemconnect4j.svg?branch=master)](https://travis-ci.org/hapramp/steemconnect4j) [![codecov](https://codecov.io/gh/hapramp/steemconnect4j/branch/master/graph/badge.svg)](https://codecov.io/gh/hapramp/steemconnect4j)
+
 A SteemConnect SDK for Java.
-### Using steemconnect4j
-**For Gradle**
+
+## Example Implementation
+
+If you are wondering how to use this SDK in Android projects, we've made an example for you :smile:.  
+Check out https://github.com/hapramp/SteemConnectSampleApp.
+
+## Using steemconnect4j with `gradle`
+
 1. Add it in your root build.gradle at the end of repositories:
+
 ```groovy
 allprojects {
    repositories {
@@ -10,15 +18,18 @@ allprojects {
    }
 }
 ```
+
 2. Add the dependency
+
 ```groovy
 dependencies {
   implementation 'com.github.hapramp:steemconnect4j:v1.0'
 }
 ```
 
+---
 
-#### Initialize `SteemConnect`
+## Initialize `SteemConnect`
 
 ```java
 
@@ -32,14 +43,14 @@ instanceBuilder
             .setAccessToken("accessToken")
             .setState("state")
             .setCallbackUrl("<callback-url>")
-            .setScope(new String[]{"comment", "vote"}); //scopes of your application
+            .setScope(new String[]{"comment", "vote"});  //scopes of your application
             
 // build the SteemConnect object.			
 SteemConnect steemConnect = instanceBuilder.build();
 
 ```
 
-Parameters
+**Parameters**  
  - **app:** This is the name of the app that was registered in the SteemConnect V2 dashboard.
  - **callbackUrl:** This is the URL that users will be redirected to after interacting with SC2. It must be listed in the "Redirect URI(s)" list in the app settings EXACTLY the same as it is specified here.
  - **accessToken:** If you have an oauth2 access token for this user already you can specify it here, otherwise you can leave it and set it later.
@@ -54,7 +65,7 @@ SteemConnectOptions steemConnectOptions = new SteemConnectOptions();
 steemConnectOptions.setAccessToken("accessToken");
 steemConnectOptions.setState("state");
 steemConnectOptions.setCallback("");
-steemConnectOptions.setScope(new String[]{"scope 1","scope 2"});
+steemConnectOptions.setScope(new String[]{"scope 1", "scope 2"});
 steemConnectOptions.setBaseUrl("base-url");
 steemConnectOptions.setApp("app");
 
@@ -63,27 +74,32 @@ SteemConnect steemConnect = new SteemConnect(steemConnectOptions);
 
 ```
 
-### Getting Login Url
+---
+
+## Getting Login Url
+
 1. Build `SteemConnect` object with atleast
-`app` , `callbackUrl` , `baseUrl` and `scope`.
+`app`, `callbackUrl`, `baseUrl` and `scope`.
 These fields are mandatory.
 
 2. Get login url
 ```java
-String loginUrl = steemConnect.getLoginUrl(); //steemConnect is a object created before.
+String loginUrl = steemConnect.getLoginUrl();  //steemConnect is a object created before.
 ```
 
 3. Now use this `loginUrl` to present authentication page to the user.
 
 4. If user provides correct credentials, steemconnect redirects to callback url with 
-`access_token` , `expires` and `username` as query parameters.
+`access_token`, `expires` and `username` as query parameters.
 Something like:
 
 `https://<callback-url>?access_token=eyJhb....0o&expires_in=604800&username=<some-user-name>`
 
 5. Store these values temporarily in your app since you will need them for further steps.
 
-### Setting AccessToken
+---
+
+## Setting AccessToken
 
 ```java
 SteemConnectOptions steemConnectOptions = new SteemConnectOptions();
@@ -93,7 +109,9 @@ steemConnectOptions.setAccessToken(token);
 steemConnect = new SteemConnect(steemConnectOptions);
 ```
 
-### Getting User Profile
+---
+
+## Getting User Profile
 
 ```java
 steemConnect.me(steemConnectCallback);
@@ -103,10 +121,13 @@ steemConnect.me(steemConnectCallback);
 
 On successfull call, JSON will be returned in
 ```java
-void onResponse(String response); //method of steemConnectCallback
+void onResponse(String response);  //method of steemConnectCallback
 ```
 
-### Vote
+---
+
+## Vote
+
 ```java
 steemConnect.vote("voter", "author", "permlink", "weight", new SteemConnectCallback() {
    @Override
@@ -121,7 +142,10 @@ steemConnect.vote("voter", "author", "permlink", "weight", new SteemConnectCallb
 });
 ```
 
-### Comment
+---
+
+## Comment
+
 ```java
 steemConnect.comment("parentAuthor",
 		    "parentPermlink",
@@ -142,22 +166,28 @@ steemConnect.comment("parentAuthor",
 });
 ```
 
-### Generate hot signing link
-The sign() method creates a URL to which your app can redirect the user to perform a signed transaction on the blockchain such as a transfer or delegation:
+---
+
+
+## Generate hot signing link
+
+The `sign()` method creates a URL to which your app can redirect the user to perform a signed transaction on the blockchain such as a transfer or delegation:
 
 ```java
-
-Map<String,String> map = new HashMap<>();
-map.put("to","bxute");
-map.put("amount","1.0000 STEEM");
-map.put("memo","done!");
-String uri = steemConnect.sign("transfer",map,"<redirectUri>");
+Map<String, String> map = new HashMap<>();
+map.put("to", "bxute");
+map.put("amount", "1.0000 STEEM");
+map.put("memo", "done!");
+String uri = steemConnect.sign("transfer", map, "<redirectUri>");
 
 // output : https://steemconnect.com/sign/transfer?to=bxute&amount=1.000%20STEEM&memo=done!&redirect_uri=<redirectUri>
 ```
 
-### Logout
-The revokeToken() method will log the current user out of your application by revoking the access token provided to your app for that user:
+---
+
+## Logout
+
+The `revokeToken()` method will log the current user out of your application by revoking the access token provided to your app for that user:
 
 ```java
 steemConnect.revokeToken(new SteemConnectCallback() {
@@ -173,9 +203,11 @@ steemConnect.revokeToken(new SteemConnectCallback() {
 });
 ```
 
-### Reblog
-```java
+---
 
+## Reblog
+
+```java
 steemConnect.reblog("accout", "author", "permlink", new SteemConnectCallback() {
    @Override
    public void onResponse(String response) {
@@ -187,13 +219,14 @@ steemConnect.reblog("accout", "author", "permlink", new SteemConnectCallback() {
 
    }
 });
-
 ```
 
-### Follow 
+---
+
+## Follow 
 
 ```java
-steemConnect.follow("follower", "following",  new SteemConnectCallback() {
+steemConnect.follow("follower", "following", new SteemConnectCallback() {
    @Override
    public void onResponse(String response) {
 
@@ -206,10 +239,12 @@ steemConnect.follow("follower", "following",  new SteemConnectCallback() {
 });
 ```
 
-### Unfollow
+---
+
+## Unfollow
 
 ```java
-steemConnect.unfollow("unfollower", "unfollowing",  new SteemConnectCallback() {
+steemConnect.unfollow("unfollower", "unfollowing", new SteemConnectCallback() {
    @Override
    public void onResponse(String response) {
 
@@ -222,10 +257,12 @@ steemConnect.unfollow("unfollower", "unfollowing",  new SteemConnectCallback() {
 });
 ```
 
-### Ignore
+---
+
+## Ignore
 
 ```java
-steemConnect.ignore("follower", "following",  new SteemConnectCallback() {
+steemConnect.ignore("follower", "following", new SteemConnectCallback() {
    @Override
    public void onResponse(String response) {
 
@@ -238,7 +275,9 @@ steemConnect.ignore("follower", "following",  new SteemConnectCallback() {
 });
 ```
 
-### Claim Reward Balance
+---
+
+## Claim Reward Balance
 
 ```java
 steemConnect.claimRewardBalance("account",
@@ -256,7 +295,11 @@ steemConnect.claimRewardBalance("account",
 	  }
 });
 ```
-### Update User Metadata
+
+---
+
+## Update User Metadata
+
 ```java
 steemConnect.updateUserMetaData("metadata", new SteemConnectCallback() {
    @Override
