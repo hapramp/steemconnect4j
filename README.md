@@ -13,7 +13,7 @@ allprojects {
 2. Add the dependency
 ```groovy
 dependencies {
-  implementation 'com.github.hapramp:steemconnect4j:v0.2'
+  implementation 'com.github.hapramp:steemconnect4j:v1.0'
 }
 ```
 
@@ -106,4 +106,166 @@ On successfull call, JSON will be returned in
 void onResponse(String response); //method of steemConnectCallback
 ```
 
+### Vote
+```java
+steemConnect.vote("voter", "author", "permlink", "weight", new SteemConnectCallback() {
+   @Override
+   public void onResponse(String response) {
+		    
+   }
 
+   @Override
+   public void onError(SteemConnectException e) {
+
+   }
+});
+```
+
+### Comment
+```java
+steemConnect.comment("parentAuthor",
+		    "parentPermlink",
+		    "author",
+		    "permlink",
+		    "title",
+		    "body",
+		    "jsonmetadata",
+		    new SteemConnectCallback() {
+   @Override
+   public void onResponse(String response) {
+
+   }
+
+   @Override
+   public void onError(SteemConnectException e) {
+
+});
+```
+
+### Generate hot signing link
+The sign() method creates a URL to which your app can redirect the user to perform a signed transaction on the blockchain such as a transfer or delegation:
+
+```java
+
+Map<String,String> map = new HashMap<>();
+map.put("to","bxute");
+map.put("amount","1.0000 STEEM");
+map.put("memo","done!");
+String uri = steemConnect.sign("transfer",map,"<redirectUri>");
+
+// output : https://steemconnect.com/sign/transfer?to=bxute&amount=1.000%20STEEM&memo=done!&redirect_uri=<redirectUri>
+```
+
+### Logout
+The revokeToken() method will log the current user out of your application by revoking the access token provided to your app for that user:
+
+```java
+steemConnect.revokeToken(new SteemConnectCallback() {
+   @Override
+   public void onResponse(String response) {
+		    
+   }
+
+   @Override
+   public void onError(SteemConnectException e) {
+
+   }
+});
+```
+
+### Reblog
+```java
+
+steemConnect.reblog("accout", "author", "permlink", new SteemConnectCallback() {
+   @Override
+   public void onResponse(String response) {
+   
+   }
+
+   @Override
+   public void onError(SteemConnectException e) {
+
+   }
+});
+
+```
+
+### Follow 
+
+```java
+steemConnect.follow("follower", "following",  new SteemConnectCallback() {
+   @Override
+   public void onResponse(String response) {
+
+   }
+
+   @Override
+   public void onError(SteemConnectException e) {
+   
+   }
+});
+```
+
+### Unfollow
+
+```java
+steemConnect.unfollow("unfollower", "unfollowing",  new SteemConnectCallback() {
+   @Override
+   public void onResponse(String response) {
+
+   }
+
+   @Override
+   public void onError(SteemConnectException e) {
+   
+   }
+});
+```
+
+### Ignore
+
+```java
+steemConnect.ignore("follower", "following",  new SteemConnectCallback() {
+   @Override
+   public void onResponse(String response) {
+
+   }
+
+   @Override
+   public void onError(SteemConnectException e) {
+   
+   }
+});
+```
+
+### Claim Reward Balance
+
+```java
+steemConnect.claimRewardBalance("account",
+      "rewardSteem",
+      "rewardSBD",
+      "rewardVests", new SteemConnectCallback() {
+	  @Override
+	  public void onResponse(String response) {
+		    
+	  }
+
+	   @Override
+	   public void onError(SteemConnectException e) {
+
+	  }
+});
+```
+### Update User Metadata
+```java
+steemConnect.updateUserMetaData("metadata", new SteemConnectCallback() {
+   @Override
+   public void onResponse(String response) {
+		    
+   }
+   @Override
+   public void onError(SteemConnectException e) {
+
+   }
+});
+```
