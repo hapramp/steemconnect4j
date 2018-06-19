@@ -115,7 +115,26 @@ public class SteemConnect {
     this.broadcast(StringUtils.getCommanSeparatedArrayString(operations),steemConnectCallback);
   }
 
+  /**
+  * reblogs any content.
+  * @param account                account of author
+  * @param author                 author of reblog
+  * @param permlink               permlink of post
+  * @param steemConnectCallback   callback for response
+  */
+  public void reblog(String account, String author, String permlink,
+      SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(
+        RpcJsonUtil.getKeyValuePair("required_auths","[]"),
+        RpcJsonUtil.getKeyValuePair("required_posting_auths","[" + account + "]"),
+        RpcJsonUtil.getKeyValuePair("id","follow"),
+        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("reblog",
+            StringUtils.getCommanSeparatedObjectString(account,author,permlink)))
+    );
 
+    String operation = StringUtils.getCommanSeparatedArrayString("custom_json",params);
+    this.broadcast(operation,steemConnectCallback);
+  }
 
   public static class InstanceBuilder {
     SteemConnectOptions steemConnectOptions;
