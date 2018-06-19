@@ -2,6 +2,7 @@ package com.hapramp.steemconnect4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Map;
 
 public class SteemConnect {
   private SteemConnectOptions steemConnectOptions;
@@ -49,7 +50,7 @@ public class SteemConnect {
   * @param body                    body of request
   * @param steemConnectCallback    callback for response
   */
-  public void send(String route, String method, String body, SteemConnectCallback
+  private void send(String route, String method, String body, SteemConnectCallback
       steemConnectCallback) {
     String url = steemConnectOptions.getBaseUrl() + "/api/" + route;
     NetworkUtils.request(url, method, steemConnectOptions.getAccessToken(), body,
@@ -61,12 +62,13 @@ public class SteemConnect {
   * @param operations             operation to be broadcasted
   * @param steemConnectCallback   callback for response
   */
-  public void broadcast(String operations, SteemConnectCallback steemConnectCallback) {
+  private void broadcast(String operations, SteemConnectCallback steemConnectCallback) {
     this.send(Route.BROADCAST, HttpMethod.POST, operations, steemConnectCallback);
   }
 
   /**
   * fetches user information.
+  * fetches user information of logged in user.
   * @param steemConnectCallback  callback for `me` endpoint
   */
   public void me(SteemConnectCallback steemConnectCallback) {
@@ -87,6 +89,169 @@ public class SteemConnect {
     String params = StringUtils.getCommanSeparatedObjectString(voter,author,permlink,weight);
     String operation = StringUtils.getCommanSeparatedArrayString("vote",params);
     this.broadcast(operation,steemConnectCallback);
+  }
+
+  /**
+  * create comment on a post.
+  * @param parentAuthor           author of post
+  * @param parentPermlink         parent permlink of post
+  * @param author                 author of comment
+  * @param permlink               permlink of post
+  * @param title                  title of comment
+  * @param body                   body of comment
+  * @param jsonMetaData           jsonmetadata of comment
+  * @param steemConnectCallback   callback for response
+  */
+  public void comment(String parentAuthor, String parentPermlink, String author, String permlink,
+      String title, String body, String jsonMetaData, SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(
+        RpcJsonUtil.getKeyValuePair("parent_author",parentAuthor),
+        RpcJsonUtil.getKeyValuePair("parent_permlink",parentPermlink),
+        author,
+        permlink,
+        title,
+        body,
+        RpcJsonUtil.getKeyValuePair("json_metadata",jsonMetaData)
+    );
+    String operations = StringUtils.getCommanSeparatedArrayString("comment",params);
+    this.broadcast(StringUtils.getCommanSeparatedArrayString(operations),steemConnectCallback);
+  }
+
+  /**
+  * reblogs any content.
+  * @param account                account of author
+  * @param author                 author of reblog
+  * @param permlink               permlink of post
+  * @param steemConnectCallback   callback for response
+  */
+  public void reblog(String account, String author, String permlink,
+      SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(
+        RpcJsonUtil.getKeyValuePair("required_auths","[]"),
+        RpcJsonUtil.getKeyValuePair("required_posting_auths","[" + account + "]"),
+        RpcJsonUtil.getKeyValuePair("id","follow"),
+        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("reblog",
+            StringUtils.getCommanSeparatedObjectString(account,author,permlink)))
+    );
+
+    String operation = StringUtils.getCommanSeparatedArrayString("custom_json",params);
+    this.broadcast(operation,steemConnectCallback);
+  }
+
+  /**
+  * follow a user.
+  * @param follower               follower
+  * @param following              user to be followed
+  * @param steemConnectCallback   callback for response
+  */
+  public void follow(String follower, String following, SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(
+        RpcJsonUtil.getKeyValuePair("required_auths","[]"),
+        RpcJsonUtil.getKeyValuePair("required_posting_auths","[" + follower + "]"),
+        RpcJsonUtil.getKeyValuePair("id","follow"),
+        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("follow",
+                     StringUtils.getCommanSeparatedObjectString(follower,following,
+                     RpcJsonUtil.getKeyValuePair("what","[blog]"))))
+    );
+
+    String operations = StringUtils.getCommanSeparatedArrayString("custom_json",params);
+    this.broadcast(operations,steemConnectCallback);
+  }
+
+  /**
+  * unfollow a user.
+  * @param unfollower               unfollower
+  * @param unfollowing              user to be unfollowed
+  * @param steemConnectCallback   callback for response
+  */
+  public void unfollow(String unfollower, String unfollowing,
+                       SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(
+        RpcJsonUtil.getKeyValuePair("required_auths","[]"),
+        RpcJsonUtil.getKeyValuePair("required_posting_auths","[" + unfollower + "]"),
+        RpcJsonUtil.getKeyValuePair("id","follow"),
+        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("follow",
+            StringUtils.getCommanSeparatedObjectString(
+                RpcJsonUtil.getKeyValuePair("follower",unfollower),
+                RpcJsonUtil.getKeyValuePair("following",unfollowing),
+                RpcJsonUtil.getKeyValuePair("what","[]"))))
+    );
+
+    String operations = StringUtils.getCommanSeparatedArrayString("custom_json",params);
+    this.broadcast(operations,steemConnectCallback);
+  }
+
+  /**
+  * ignore a user.
+  * @param follower               follower
+  * @param following              user to be followed
+  * @param steemConnectCallback   callback for response
+  */
+  public void ignore(String follower, String following, SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(
+        RpcJsonUtil.getKeyValuePair("required_auths","[]"),
+        RpcJsonUtil.getKeyValuePair("required_posting_auths","[" + follower + "]"),
+        RpcJsonUtil.getKeyValuePair("id","follow"),
+        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("follow",
+            StringUtils.getCommanSeparatedObjectString(follower,following,
+            RpcJsonUtil.getKeyValuePair("what","[ignore]"))))
+    );
+
+    String operations = StringUtils.getCommanSeparatedArrayString("custom_json",params);
+    this.broadcast(operations,steemConnectCallback);
+  }
+
+  /**
+  * claim reward of user.
+  * @param account                 account name
+  * @param rewardSteem             rewarded Steem
+  * @param rewardSbd               rewarded SBD
+  * @param rewardVests             rewarded vests
+  * @param steemConnectCallback    callback for response
+  */
+  public void claimRewardBalance(String account, String rewardSteem, String rewardSbd,
+                                 String rewardVests, SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(account,
+        RpcJsonUtil.getKeyValuePair("reward_steem",rewardSteem),
+        RpcJsonUtil.getKeyValuePair("reward_sbd", rewardSbd),
+        RpcJsonUtil.getKeyValuePair("reward_vests", rewardVests));
+
+    String operation = StringUtils.getCommanSeparatedArrayString("claim_reward_balance",params);
+    this.broadcast(operation,steemConnectCallback);
+  }
+
+  /**
+  * removes accessToken.
+  * @param steemConnectCallback  callback for response.
+  */
+  public void revokeToken(SteemConnectCallback steemConnectCallback) {
+    String body = RpcJsonUtil.getObjectString("token",this.steemConnectOptions.getAccessToken());
+    this.send(Route.REVOKE_TOKEN,HttpMethod.POST,body,steemConnectCallback);
+    this.removeAccessToken();
+  }
+
+  /**
+  * updates user metadata.
+  * @param metadata                 updated metadata of user.
+  * @param steemConnectCallback     callback for response
+  */
+  public void updateUserMetaData(String metadata, SteemConnectCallback steemConnectCallback) {
+    this.send(Route.ME, HttpMethod.PUT,RpcJsonUtil.getObjectString("user_metadata",metadata),
+        steemConnectCallback);
+  }
+
+  /**
+  * format signing url.
+  * @param name            name of signing method
+  * @param params          map of query parameters
+  * @param redirectUri     redirect url after sigining
+  * @return                signing url
+  */
+  public String sign(String name, Map<String,String> params, String redirectUri) {
+    String url = String.format("%s/sign/%s?%s%s", this.steemConnectOptions.getBaseUrl(),
+            name, StringUtils.getQueryParamsFromMap(params),
+            redirectUri != null && redirectUri.length() > 0 ? redirectUri : "");
+    return url;
   }
 
   public static class InstanceBuilder {
@@ -120,6 +285,26 @@ public class SteemConnect {
     }
 
     /**
+    * set state of app.
+    * @param state state of the app
+    * @return      instance of InstanceBuilder
+    */
+    public InstanceBuilder setState(String state) {
+      steemConnectOptions.setState(state);
+      return this;
+    }
+
+    /**
+    * set access Token for user.
+    * @param acessToken  accessToken of current user
+    * @return            instance of InstanceBuilder
+    */
+    public InstanceBuilder setAcessToken(String acessToken) {
+      steemConnectOptions.setAccessToken(acessToken);
+      return this;
+    }
+
+    /**
     * sets scopes to steemconnectOptions object.
     * @param scopes  scopes of oauth
     * @return        instance of InstanceBuilder
@@ -147,4 +332,12 @@ public class SteemConnect {
       return new SteemConnect(steemConnectOptions);
     }
   }
+
+  /**
+  * removes accessToken.
+  */
+  private void removeAccessToken() {
+    this.steemConnectOptions.setAccessToken(null);
+  }
+
 }
