@@ -218,6 +218,16 @@ public class SteemConnect {
     this.broadcast(operation,steemConnectCallback);
   }
 
+  /**
+  * removes accessToken.
+  * @param steemConnectCallback  callback for response.
+  */
+  public void revokeToken(SteemConnectCallback steemConnectCallback) {
+    String body = RpcJsonUtil.getObjectString("token",this.steemConnectOptions.getAccessToken());
+    this.send(Route.REVOKE_TOKEN,HttpMethod.POST,body,steemConnectCallback);
+    this.removeAccessToken();
+  }
+
   public static class InstanceBuilder {
     SteemConnectOptions steemConnectOptions;
 
@@ -296,4 +306,12 @@ public class SteemConnect {
       return new SteemConnect(steemConnectOptions);
     }
   }
+
+  /**
+  * removes accessToken.
+  */
+  private void removeAccessToken() {
+    this.steemConnectOptions.setAccessToken(null);
+  }
+
 }
