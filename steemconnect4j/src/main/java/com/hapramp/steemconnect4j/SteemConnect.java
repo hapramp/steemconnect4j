@@ -156,6 +156,30 @@ public class SteemConnect {
     this.broadcast(operations,steemConnectCallback);
   }
 
+  /**
+  * unfollow a user.
+  * @param unfollower               unfollower
+  * @param unfollowing              user to be unfollowed
+  * @param steemConnectCallback   callback for response
+  */
+  public void unfollow(String unfollower, String unfollowing,
+                       SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(
+        RpcJsonUtil.getKeyValuePair("required_auths","[]"),
+        RpcJsonUtil.getKeyValuePair("required_posting_auths","[" + unfollower + "]"),
+        RpcJsonUtil.getKeyValuePair("id","follow"),
+        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("follow",
+            StringUtils.getCommanSeparatedObjectString(
+                RpcJsonUtil.getKeyValuePair("follower",unfollower),
+                RpcJsonUtil.getKeyValuePair("following",unfollowing),
+                RpcJsonUtil.getKeyValuePair("what","[]"))))
+    );
+
+    String operations = StringUtils.getCommanSeparatedArrayString("custom_json",params);
+    this.broadcast(operations,steemConnectCallback);
+  }
+
+
   public static class InstanceBuilder {
     SteemConnectOptions steemConnectOptions;
 
