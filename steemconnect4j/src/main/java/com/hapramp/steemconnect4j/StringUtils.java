@@ -76,4 +76,13 @@ public class StringUtils {
     }
     return queryBuilder.toString();
   }
+
+  /**
+  * formats string of operations string.
+  * @param value    value for operations key
+  * @return         object form of operations string
+  */
+  public static String getOperationsString(String value) {
+    return "{\"operations\":" + value + "}";
+  }
 }

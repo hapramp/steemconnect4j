@@ -85,8 +85,14 @@ public class SteemConnect {
   */
   public void vote(String voter, String author, String permlink, String weight,
                    SteemConnectCallback steemConnectCallback) {
-    String params = StringUtils.getCommanSeparatedObjectString(voter,author,permlink,weight);
-    String operation = StringUtils.getCommanSeparatedArrayString("vote",params);
+    String params = StringUtils.getCommanSeparatedObjectString(
+    		    RpcJsonUtil.getKeyValuePair("voter","\"" + voter + "\""),
+		    RpcJsonUtil.getKeyValuePair("author","\"" + author + "\""),
+		    RpcJsonUtil.getKeyValuePair("permlink","\"" + permlink + "\""),
+		    RpcJsonUtil.getKeyValuePair("weight",weight));
+    String operation = StringUtils.getOperationsString(
+    		StringUtils.getCommanSeparatedArrayString(
+    				StringUtils.getCommanSeparatedArrayString("\"vote\"",params)));
     this.broadcast(operation,steemConnectCallback);
   }
 
@@ -104,15 +110,17 @@ public class SteemConnect {
   public void comment(String parentAuthor, String parentPermlink, String author, String permlink,
       String title, String body, String jsonMetaData, SteemConnectCallback steemConnectCallback) {
     String params = StringUtils.getCommanSeparatedObjectString(
-        RpcJsonUtil.getKeyValuePair("parent_author",parentAuthor),
-        RpcJsonUtil.getKeyValuePair("parent_permlink",parentPermlink),
-        author,
-        permlink,
-        title,
-        body,
+        RpcJsonUtil.getKeyValuePair("parent_author","\"" + parentAuthor + "\""),
+        RpcJsonUtil.getKeyValuePair("parent_permlink","\"" + parentPermlink + "\""),
+        RpcJsonUtil.getKeyValuePair("author","\"" + author + "\""),
+        RpcJsonUtil.getKeyValuePair("permlink","\"" + permlink + "\""),
+        RpcJsonUtil.getKeyValuePair("title","\"" + title + "\""),
+        RpcJsonUtil.getKeyValuePair("body","\"" + body + "\""),
         RpcJsonUtil.getKeyValuePair("json_metadata",jsonMetaData)
     );
-    String operations = StringUtils.getCommanSeparatedArrayString("comment",params);
+    String operations = StringUtils.getOperationsString(
+    		StringUtils.getCommanSeparatedArrayString(
+    				StringUtils.getCommanSeparatedArrayString("\"comment\"",params)));
     this.broadcast(StringUtils.getCommanSeparatedArrayString(operations),steemConnectCallback);
   }
 
@@ -127,13 +135,15 @@ public class SteemConnect {
       SteemConnectCallback steemConnectCallback) {
     String params = StringUtils.getCommanSeparatedObjectString(
         RpcJsonUtil.getKeyValuePair("required_auths","[]"),
-        RpcJsonUtil.getKeyValuePair("required_posting_auths","[" + account + "]"),
-        RpcJsonUtil.getKeyValuePair("id","follow"),
-        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("reblog",
+        RpcJsonUtil.getKeyValuePair("required_posting_auths","[\"" + account + "\"]"),
+        RpcJsonUtil.getKeyValuePair("id","\"follow\""),
+        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("\"reblog\"",
             StringUtils.getCommanSeparatedObjectString(account,author,permlink)))
     );
 
-    String operation = StringUtils.getCommanSeparatedArrayString("custom_json",params);
+    String operation = StringUtils.getOperationsString(
+    		StringUtils.getCommanSeparatedArrayString(
+    		StringUtils.getCommanSeparatedArrayString("\"custom_json\"",params)));
     this.broadcast(operation,steemConnectCallback);
   }
 
@@ -146,14 +156,18 @@ public class SteemConnect {
   public void follow(String follower, String following, SteemConnectCallback steemConnectCallback) {
     String params = StringUtils.getCommanSeparatedObjectString(
         RpcJsonUtil.getKeyValuePair("required_auths","[]"),
-        RpcJsonUtil.getKeyValuePair("required_posting_auths","[" + follower + "]"),
-        RpcJsonUtil.getKeyValuePair("id","follow"),
-        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("follow",
-                     StringUtils.getCommanSeparatedObjectString(follower,following,
-                     RpcJsonUtil.getKeyValuePair("what","[blog]"))))
+        RpcJsonUtil.getKeyValuePair("required_posting_auths","\"" + follower + "\"]"),
+        RpcJsonUtil.getKeyValuePair("id","\"follow\""),
+        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("\"follow\"",
+                     StringUtils.getCommanSeparatedObjectString(
+                     		RpcJsonUtil.getKeyValuePair("follower","\"" + follower + "\""),
+		                 RpcJsonUtil.getKeyValuePair("following","\"" + following + "\""),
+                     RpcJsonUtil.getKeyValuePair("what","[\"blog\"]"))))
     );
 
-    String operations = StringUtils.getCommanSeparatedArrayString("custom_json",params);
+    String operations = StringUtils.getOperationsString(
+    		StringUtils.getCommanSeparatedArrayString(
+    		StringUtils.getCommanSeparatedArrayString("\"custom_json\"",params)));
     this.broadcast(operations,steemConnectCallback);
   }
 
@@ -167,16 +181,18 @@ public class SteemConnect {
                        SteemConnectCallback steemConnectCallback) {
     String params = StringUtils.getCommanSeparatedObjectString(
         RpcJsonUtil.getKeyValuePair("required_auths","[]"),
-        RpcJsonUtil.getKeyValuePair("required_posting_auths","[" + unfollower + "]"),
-        RpcJsonUtil.getKeyValuePair("id","follow"),
-        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("follow",
+        RpcJsonUtil.getKeyValuePair("required_posting_auths","[\"" + unfollower + "\"]"),
+        RpcJsonUtil.getKeyValuePair("id","\"follow\""),
+        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("\"follow\"",
             StringUtils.getCommanSeparatedObjectString(
-                RpcJsonUtil.getKeyValuePair("follower",unfollower),
-                RpcJsonUtil.getKeyValuePair("following",unfollowing),
+                RpcJsonUtil.getKeyValuePair("follower","\"" + unfollower + "\""),
+                RpcJsonUtil.getKeyValuePair("following","\"" + unfollowing + "\""),
                 RpcJsonUtil.getKeyValuePair("what","[]"))))
     );
 
-    String operations = StringUtils.getCommanSeparatedArrayString("custom_json",params);
+    String operations = StringUtils.getOperationsString(
+    		StringUtils.getCommanSeparatedArrayString(
+    		StringUtils.getCommanSeparatedArrayString("\"custom_json\"",params)));
     this.broadcast(operations,steemConnectCallback);
   }
 
@@ -189,14 +205,17 @@ public class SteemConnect {
   public void ignore(String follower, String following, SteemConnectCallback steemConnectCallback) {
     String params = StringUtils.getCommanSeparatedObjectString(
         RpcJsonUtil.getKeyValuePair("required_auths","[]"),
-        RpcJsonUtil.getKeyValuePair("required_posting_auths","[" + follower + "]"),
-        RpcJsonUtil.getKeyValuePair("id","follow"),
-        RpcJsonUtil.getKeyValuePair("json", StringUtils.getCommanSeparatedArrayString("follow",
-            StringUtils.getCommanSeparatedObjectString(follower,following,
-            RpcJsonUtil.getKeyValuePair("what","[ignore]"))))
+        RpcJsonUtil.getKeyValuePair("required_posting_auths","[\"" + follower + "\"]"),
+        RpcJsonUtil.getKeyValuePair("id","\"follow\""),
+        RpcJsonUtil.getKeyValuePair("json",
+		        StringUtils.getCommanSeparatedArrayString("\"follow\"",
+        StringUtils.getCommanSeparatedObjectString(follower,following,
+            RpcJsonUtil.getKeyValuePair("what","[\"ignore\"]"))))
     );
 
-    String operations = StringUtils.getCommanSeparatedArrayString("custom_json",params);
+    String operations = StringUtils.getOperationsString(
+    		StringUtils.getCommanSeparatedArrayString(
+    		StringUtils.getCommanSeparatedArrayString("\"custom_json\"",params)));
     this.broadcast(operations,steemConnectCallback);
   }
 
@@ -210,12 +229,15 @@ public class SteemConnect {
   */
   public void claimRewardBalance(String account, String rewardSteem, String rewardSbd,
                                  String rewardVests, SteemConnectCallback steemConnectCallback) {
-    String params = StringUtils.getCommanSeparatedObjectString(account,
-        RpcJsonUtil.getKeyValuePair("reward_steem",rewardSteem),
-        RpcJsonUtil.getKeyValuePair("reward_sbd", rewardSbd),
-        RpcJsonUtil.getKeyValuePair("reward_vests", rewardVests));
+    String params = StringUtils.getCommanSeparatedObjectString(
+    		RpcJsonUtil.getKeyValuePair("account","\"" + account + "\""),
+        RpcJsonUtil.getKeyValuePair("reward_steem","\"" + rewardSteem + "\""),
+        RpcJsonUtil.getKeyValuePair("reward_sbd", "\"" + rewardSbd + "\""),
+        RpcJsonUtil.getKeyValuePair("reward_vests", "\"" + rewardVests + "\""));
 
-    String operation = StringUtils.getCommanSeparatedArrayString("claim_reward_balance",params);
+    String operation = StringUtils.getOperationsString(
+    		StringUtils.getCommanSeparatedArrayString(
+    		StringUtils.getCommanSeparatedArrayString("\"claim_reward_balance\"",params)));
     this.broadcast(operation,steemConnectCallback);
   }
 
