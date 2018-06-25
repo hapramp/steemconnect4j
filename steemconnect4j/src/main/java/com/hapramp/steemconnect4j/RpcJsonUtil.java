@@ -9,7 +9,7 @@ public class RpcJsonUtil {
     * @return       "key":"value"
   */
   public static String getKeyValuePair(String key, String value) {
-    return "\"" + key + "\":\"" + value + "\"";
+    return "\"" + key + "\":" + value;
   }
 
   /**
@@ -19,7 +19,7 @@ public class RpcJsonUtil {
     * @return       {"key":"value"}
   */
   public static String getObjectString(String key, String value) {
-    return "{\"" + key + "\":\"" + value + "\"}";
+    return "{" + key + ":" + value + "}";
   }
 
   /**
@@ -29,6 +29,6 @@ public class RpcJsonUtil {
     * @return       ["key":"value"]
   */
   public static String getArrayString(String key, String value) {
-    return "[\"" + key + "\":\"" + value + "\"]";
+    return "[" + key + ":" + value + "]";
   }
 }
