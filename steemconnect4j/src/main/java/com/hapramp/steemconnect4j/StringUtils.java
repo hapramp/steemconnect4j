@@ -66,7 +66,7 @@ public class StringUtils {
   * @param map  map of key value pairs of query
   * @return     formatted string for query parameters
   */
-  public static String getQueryParamsFromMap(Map<String,String> map) {
+  public static String getQueryParamsFromMap(Map<String, String> map) {
     StringBuilder queryBuilder = new StringBuilder();
     for (Map.Entry<String, String> entry : map.entrySet()) {
       queryBuilder.append(entry.getKey())

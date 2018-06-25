@@ -22,64 +22,64 @@ import org.junit.Test;
 public class StringUtilsTest {
   @Test
   public void testGetCommaSeparatedString() {
-    String[] testStrings = {"first","second"};
+    String[] testStrings = {"first", "second"};
     String res = StringUtils.getCommaSeparatedString(testStrings);
-    assertEquals("first,second",res);
+    assertEquals("first,second", res);
   }
 
   @Test
   public void testGetCommanSeparatedObjectString() {
     String res = StringUtils
-        .getCommanSeparatedObjectString("\"voter\"","\"permlink\"","\"weight\"");
-    assertEquals("{\"voter\",\"permlink\",\"weight\"}",res);
+        .getCommanSeparatedObjectString("\"voter\"", "\"permlink\"", "\"weight\"");
+    assertEquals("{\"voter\",\"permlink\",\"weight\"}", res);
   }
 
   @Test
   public void testGetCommanSeparatedArrayString() {
-    String csos = StringUtils.getCommanSeparatedObjectString("\"voter\"","\"permlink\"");
-    String csas = StringUtils.getCommanSeparatedArrayString("\"vote\"",csos);
+    String csos = StringUtils.getCommanSeparatedObjectString("\"voter\"", "\"permlink\"");
+    String csas = StringUtils.getCommanSeparatedArrayString("\"vote\"", csos);
     String exp = "[\"vote\",{\"voter\",\"permlink\"}]";
-    print(exp,csas);
-    assertEquals(exp,csas);
+    print(exp, csas);
+    assertEquals(exp, csas);
   }
 
   @Test
   public void testSingleItemInArrayString() {
     String csas = StringUtils.getCommanSeparatedArrayString("vote");
     String exp = "[vote]";
-    print(exp,csas);
-    assertEquals(exp,csas);
+    print(exp, csas);
+    assertEquals(exp, csas);
   }
 
   @Test
   public void testQueryParameterBuilder() {
     String redirectUri = "http://google.com";
-    Map<String,String> map = new HashMap<>();
-    map.put("auth","allowed");
-    map.put("user","bxute");
-    map.put("id","10");
-    String url = String.format("%s/sign/%s?%s%s", "https://hapramp.com",
-        "follow", StringUtils.getQueryParamsFromMap(map),
+    Map<String, String> map = new HashMap<>();
+    map.put("auth", "allowed");
+    map.put("user", "bxute");
+    map.put("id", "10");
+    String url = String.format("%s/sign/%s?%s%s",  "https://hapramp.com",
+        "follow",  StringUtils.getQueryParamsFromMap(map),
         "redirectUri=" + (redirectUri != null && (redirectUri.length() > 0) ? redirectUri : ""));
     String exp = "https://hapramp.com/sign/follow?auth=allowed&id=10&user=bxute&redirectUri=http://google.com";
-    assertEquals(exp,url);
+    assertEquals(exp, url);
   }
 
   @Test
   public void testHttpMethodClass() {
-    assertEquals("GET", HttpMethod.GET);
-    assertEquals("POST",HttpMethod.POST);
-    assertEquals("PUT",HttpMethod.PUT);
+    assertEquals("GET",  HttpMethod.GET);
+    assertEquals("POST", HttpMethod.POST);
+    assertEquals("PUT", HttpMethod.PUT);
   }
 
   @Test
   public void testNetworkUtils() {
     CountDownLatch countDownLatch = new CountDownLatch(1);
     try {
-      NetworkUtils.request("http://httpbin.org/get", "GET", "", "", new SteemConnectCallback() {
+      NetworkUtils.request("http://httpbin.org/get",  "GET",  "",  "",  new SteemConnectCallback() {
         @Override
         public void onResponse(String response) {
-          print(response,response);
+          print(response, response);
           assertTrue(response.length() > 0);
           countDownLatch.countDown();
         }
@@ -99,30 +99,30 @@ public class StringUtilsTest {
 
   @Test
   public void testRouteClass() {
-    assertEquals("broadcast", Route.BROADCAST);
-    assertEquals("me",Route.ME);
-    assertEquals("oauth2/token/revoke",Route.REVOKE_TOKEN);
+    assertEquals("broadcast",  Route.BROADCAST);
+    assertEquals("me", Route.ME);
+    assertEquals("oauth2/token/revoke", Route.REVOKE_TOKEN);
   }
 
   @Test
   public void testGetKeyValuePair() {
-    String kv = RpcJsonUtil.getKeyValuePair("a","b");
+    String kv = RpcJsonUtil.getKeyValuePair("a",  "b");
     String exp = "\"a\":b";
-    assertEquals(exp,kv);
+    assertEquals(exp,  kv);
   }
 
   @Test
   public void testGetObjectString() {
-    String os = RpcJsonUtil.getObjectString("a","b");
+    String os = RpcJsonUtil.getObjectString("a", "b");
     String exp = "{a:b}";
-    assertEquals(exp,os);
+    assertEquals(exp, os);
   }
 
   @Test
   public void testGetArrayString() {
-    String as = RpcJsonUtil.getArrayString("a","b");
+    String as = RpcJsonUtil.getArrayString("a", "b");
     String exp = "[a:b]";
-    assertEquals(exp,as);
+    assertEquals(exp, as);
   }
 
   @Test
@@ -131,18 +131,18 @@ public class StringUtilsTest {
     steemConnectOptions.setAccessToken("token");
     steemConnectOptions.setApp("app");
     steemConnectOptions.setBaseUrl("baseUrl");
-    steemConnectOptions.setScope(new String[]{"scope1","scope2"});
+    steemConnectOptions.setScope(new String[]{"scope1", "scope2"});
     steemConnectOptions.setState("loggedin");
     steemConnectOptions.setCallback("callback");
-    assertEquals("token", steemConnectOptions.getAccessToken());
-    assertEquals("app", steemConnectOptions.getApp());
-    assertEquals("callback", steemConnectOptions.getCallback());
+    assertEquals("token",  steemConnectOptions.getAccessToken());
+    assertEquals("app",  steemConnectOptions.getApp());
+    assertEquals("callback",  steemConnectOptions.getCallback());
     assertTrue(steemConnectOptions.getScope().length == 2);
-    assertEquals("loggedin", steemConnectOptions.getState());
-    assertEquals("baseUrl",steemConnectOptions.getBaseUrl());
+    assertEquals("loggedin",  steemConnectOptions.getState());
+    assertEquals("baseUrl",  steemConnectOptions.getBaseUrl());
   }
 
-  private void print(String exp,String actual) {
+  private void print(String exp, String actual) {
     System.out.println("Expected: " + exp);
     System.out.println("Actual: " + actual);
   }
