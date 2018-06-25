@@ -66,7 +66,7 @@ public class StringUtils {
   * @param map  map of key value pairs of query
   * @return     formatted string for query parameters
   */
-  public static String getQueryParamsFromMap(Map<String,String> map) {
+  public static String getQueryParamsFromMap(Map<String, String> map) {
     StringBuilder queryBuilder = new StringBuilder();
     for (Map.Entry<String, String> entry : map.entrySet()) {
       queryBuilder.append(entry.getKey())
@@ -75,5 +75,14 @@ public class StringUtils {
         .append("&");
     }
     return queryBuilder.toString();
+  }
+
+  /**
+  * formats string of operations string.
+  * @param value    value for operations key
+  * @return         object form of operations string
+  */
+  public static String getOperationsString(String value) {
+    return "{\"operations\":" + value + "}";
   }
 }
