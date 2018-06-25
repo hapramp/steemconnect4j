@@ -31,8 +31,11 @@ public class NetworkUtils {
       con.setRequestProperty("Content-Type", "application/json");
       con.setRequestProperty("Authorization", token);
       con.setRequestProperty("User-Agent", USER_AGENT);
-      OutputStream os = con.getOutputStream();
-      os.write(body.getBytes("UTF-8"));
+      con.setDoOutput(true);
+      if (body.length() > 0) {
+        OutputStream os = con.getOutputStream();
+        os.write(body.getBytes("UTF-8"));
+      }
       int responseCode = con.getResponseCode();
       if (responseCode == HttpURLConnection.HTTP_OK) {
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
