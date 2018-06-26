@@ -19,7 +19,7 @@ public class SteemConnect {
   * build login url.
   * @return  login url for oauth.
   */
-  public String getLoginUrl() throws SteemConnectException {
+  public String getLoginUrl(boolean wantCode) throws SteemConnectException {
     StringBuilder loginUrlBuilder = new StringBuilder();
     try {
       loginUrlBuilder
@@ -27,6 +27,10 @@ public class SteemConnect {
           .append("/oauth2/authorize?client_id=").append(steemConnectOptions.getApp())
           .append("&redirect_uri=")
           .append(URLEncoder.encode(steemConnectOptions.getCallback(), "UTF-8"));
+      if (wantCode) {
+        loginUrlBuilder
+          .append("&response_type=code");
+      }
       if (steemConnectOptions.getScope().length > 0) {
         loginUrlBuilder
             .append("&scope=")
@@ -41,6 +45,79 @@ public class SteemConnect {
       throw new SteemConnectException("LoginUrl", "EncodingException", e.toString());
     }
     return loginUrlBuilder.toString();
+  }
+
+  /**
+  * method to request refresh token given a code of user.
+  * @param code                      code of logged in user.
+  * @param steemConnectCallback      callback for response.
+  * @throws SteemConnectException    exception for unexpected errors.
+  */
+  public void requestRefreshToken(String code, SteemConnectCallback steemConnectCallback)
+      throws SteemConnectException {
+    //check client secret
+    if (steemConnectOptions.getClientSecret() != null
+        && steemConnectOptions.getClientSecret().length() > 0) {
+      String body = StringUtils.getCommanSeparatedObjectString(
+          RpcJsonUtil.getKeyValuePair("response_type", "\"refresh\""),
+          RpcJsonUtil.getKeyValuePair("code", "\""
+          + code
+          + "\""),
+          RpcJsonUtil.getKeyValuePair("client_id", "\""
+          + steemConnectOptions.getApp()
+          + "\""),
+          RpcJsonUtil.getKeyValuePair("client_secret", "\""
+          + steemConnectOptions.getClientSecret()
+          + "\""),
+          RpcJsonUtil.getKeyValuePair("scope", "\""
+          + StringUtils.getCommaSeparatedString(steemConnectOptions.getScope())
+          + "\"")
+      );
+      send(Route.REFRESH_TOKEN, HttpMethod.POST, body, steemConnectCallback);
+    } else {
+      throw new SteemConnectException("RefreshToken",
+        "ArguementException", "You must set a valid client secret to SteemConnectOptions!");
+    }
+  }
+
+  /**
+  * method to get access token from refresh token.
+  * @param refreshToken             refreshToken of logged in user.
+  * @param steemConnectCallback     callback for response
+  * @throws SteemConnectException   exception for unexpected errors.
+  */
+  public void requestAccessToken(String refreshToken, SteemConnectCallback steemConnectCallback)
+      throws SteemConnectException {
+    //check refresh token
+    if (refreshToken != null && refreshToken.length() > 0) {
+      //check client secret
+      if (steemConnectOptions.getClientSecret() != null
+          && steemConnectOptions.getClientSecret().length() > 0) {
+        //perform request.
+        String body = StringUtils.getCommanSeparatedObjectString(
+            RpcJsonUtil.getKeyValuePair("refresh_token", "\""
+            + refreshToken
+            + "\""),
+            RpcJsonUtil.getKeyValuePair("client_id", "\""
+            + steemConnectOptions.getApp()
+            + "\""),
+            RpcJsonUtil.getKeyValuePair("client_secret", "\""
+            + steemConnectOptions.getClientSecret()
+            + "\""),
+            RpcJsonUtil.getKeyValuePair("scope", "\""
+            + StringUtils.getCommaSeparatedString(steemConnectOptions.getScope())
+            + "\"")
+        );
+        send(Route.REFRESH_TOKEN, HttpMethod.POST, body, steemConnectCallback);
+      } else {
+        //throw exception
+        throw new SteemConnectException("AccessToken",
+          "ArguementException", "You must set a valid client secret to SteemConnectOptions!");
+      }
+    } else {
+      throw new SteemConnectException("AccessToken",
+        "ArguementException", "You must pass a valid refreshToken!");
+    }
   }
 
   /**

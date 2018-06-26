@@ -23,7 +23,7 @@ allprojects {
 
 ```groovy
 dependencies {
-  implementation 'com.github.hapramp:steemconnect4j:v1.0'
+  implementation 'com.github.hapramp:steemconnect4j:v1.1'
 }
 ```
 
