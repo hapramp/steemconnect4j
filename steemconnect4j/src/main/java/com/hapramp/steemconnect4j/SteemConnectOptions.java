@@ -1,12 +1,13 @@
 package com.hapramp.steemconnect4j;
 
 public class SteemConnectOptions {
-  public static final String BASE_URL = "https://steemconnect.com";
+  public static final String BASE_URL = "https://v2.steemconnect.com";
   private String baseUrl;
   private String app;
   private String state;
   private String callback;
   private String[] scope;
+  private String clientSecret;
   private String accessToken;
 
   /**
@@ -102,6 +103,22 @@ public class SteemConnectOptions {
   */
   public String getAccessToken() {
     return accessToken;
+  }
+
+  /**
+  * helper method to get client secret.
+  * @return  client secret
+  */
+  public String getClientSecret() {
+    return clientSecret;
+  }
+
+  /**
+   * helper method to set client secret.
+   * @param clientSecret client secret
+   */
+  public void setClientSecret(String clientSecret) {
+    this.clientSecret = clientSecret;
   }
 
   /**
