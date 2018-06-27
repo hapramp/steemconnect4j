@@ -23,7 +23,7 @@ allprojects {
 
 ```groovy
 dependencies {
-  implementation 'com.github.hapramp:steemconnect4j:v1.1'
+  implementation 'com.github.hapramp:steemconnect4j:v1.2'
 }
 ```
 
@@ -84,18 +84,125 @@ These fields are mandatory.
 
 2. Get login url
 ```java
-String loginUrl = steemConnect.getLoginUrl();  //steemConnect is a object created before.
+String loginUrl = steemConnect.getLoginUrl(true);  //steemConnect is an object created before.
 ```
+
+> Prototype of method: `public void getLoginUrl(boolean wantCode);`
+
+There are 2 type of loginUrl, featuring different results in redirected url.
+ - Redirection with `access_token`
+ - Redirection with `code` (recommended, more secure)
+
+Using the first one which provides direct access_token is less secure since we will need to persist in local database or temprory file for future use.
+
+Using `code` we can request `access_token` whenever we need.
+
+So let us see the differences,
+
+```java
+String loginUrl = steemConnect.getLoginUrl(false);  //wantCode: false
+```
+**Login URL:** `https://v2.steemconnect.com/oauth2/authorize?client_id=&redirect_uri=%2F&scope=`
+
+**Redirected URL:** `https://<callback-url>?access_token=eyJhb....0o&expires_in=604800&username=<some-user-name>`
+
+**Feature**
+ - loginUrl do not contains `response_type=code` query parameter.
+ - redirected URL has `access_token` as query parameter
+
+#### And 
+
+
+```java
+String loginUrl = steemConnect.getLoginUrl(true);  //wantCode: true
+```
+**Login URL:** `https://v2.steemconnect.com/oauth2/authorize?client_id=&response_type=code&redirect_uri=%2F&scope=`
+
+**Redirected URL:** `https://<callback-url>?code=eyJhb....0o`
+
+**Feature**
+ - loginUrl contains `response_type=code` query parameter.
+ - redirected URL has `code` as query parameter instead of `access_token`
+
 
 3. Now use this `loginUrl` to present authentication page to the user.
 
-4. If user provides correct credentials, steemconnect redirects to callback url with 
-`access_token`, `expires` and `username` as query parameters.
-Something like:
+---
+## Flow of getting Access Token
 
-`https://<callback-url>?access_token=eyJhb....0o&expires_in=604800&username=<some-user-name>`
+##### `Code` --> `RefreshToken` --> `Access Token`
 
-5. Store these values temporarily in your app since you will need them for further steps.
+---
+## What is Refresh Token ?
+
+Refresh tokens given from https://v2.steemconnect.com/api/oauth2/authorize when scope contains offline. The purpose is for headless operations to have access. Refresh tokens are not the same as access tokens. Access tokens allow access, but have an expiration of about 7 days. Refresh tokens do not expire, but instead of access they can be used to continuously retrieve access tokens.
+
+---
+## Getting Refresh Token from `code`
+
+```
+//prepare steemconnect options
+SteemConnectOptions steemConnectOptions = new SteemConnectOptions();
+steemConnectOptions.setClientSecret("your_client_secret");
+steemConnectOptions.setScope(new String[]{"vote","comment","offline"}); //`offline` is must.
+steemConnectOptions.setApp("your-app");
+//build steemconnect
+SteemConnect steemConnect = new SteemConnect(steemConnectOptions);
+//call method
+try {
+  steemConnect.requestRefreshToken("code-of-user", new SteemConnectCallback() {
+  @Override
+  public void onResponse(String response) {
+          
+  }
+  
+  @Override
+  public void onError(SteemConnectException e) {
+  
+  }
+  });
+ }
+  catch (SteemConnectException e) {
+   e.printStackTrace();
+}
+```
+
+On Successfull Request, it responds with :
+```
+{
+  access_token: "ey09..02",
+  username: <user-name>,
+  refresh_token: "some token"
+}
+
+```
+
+---
+## Getting AccessToken from `Refresh Token`
+
+```
+SteemConnectOptions steemConnectOptions = new SteemConnectOptions();
+steemConnectOptions.setClientSecret("your_client_secret");
+steemConnectOptions.setScope(new String[]{"vote","comment","offline"}); //offline is must
+steemConnectOptions.setApp("your-app");
+SteemConnect steemConnect = new SteemConnect(steemConnectOptions);
+try {
+ steemConnect.requestAccessToken("refresh-token-of-user", new SteemConnectCallback() {
+   @Override
+   public void onResponse(String response) {
+
+   }
+   
+   @Override
+   public void onError(SteemConnectException e) {
+
+   }
+  });
+ }
+ catch (SteemConnectException e) {
+   e.printStackTrace();
+}
+```
 
 ---
 
