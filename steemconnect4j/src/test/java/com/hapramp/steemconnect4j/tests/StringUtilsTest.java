@@ -17,8 +17,6 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import org.junit.Test;
 
-
-
 public class StringUtilsTest {
   @Test
   public void testGetCommaSeparatedString() {
@@ -102,6 +100,7 @@ public class StringUtilsTest {
     assertEquals("broadcast",  Route.BROADCAST);
     assertEquals("me", Route.ME);
     assertEquals("oauth2/token/revoke", Route.REVOKE_TOKEN);
+    assertEquals("oauth2/token", Route.REFRESH_TOKEN);
   }
 
   @Test
@@ -133,13 +132,22 @@ public class StringUtilsTest {
     steemConnectOptions.setBaseUrl("baseUrl");
     steemConnectOptions.setScope(new String[]{"scope1", "scope2"});
     steemConnectOptions.setState("loggedin");
+    steemConnectOptions.setClientSecret("client_secret");
     steemConnectOptions.setCallback("callback");
     assertEquals("token",  steemConnectOptions.getAccessToken());
     assertEquals("app",  steemConnectOptions.getApp());
     assertEquals("callback",  steemConnectOptions.getCallback());
     assertTrue(steemConnectOptions.getScope().length == 2);
     assertEquals("loggedin",  steemConnectOptions.getState());
+    assertEquals("client_secret", steemConnectOptions.getClientSecret());
     assertEquals("baseUrl",  steemConnectOptions.getBaseUrl());
+  }
+
+  @Test
+  public void testGetOperationsStringObject() {
+    String input = "[[\"vote\"]]";
+    String expected = "{\"operations\":[[\"vote\"]]}";
+    assertEquals(expected, StringUtils.getOperationsString(input));
   }
 
   private void print(String exp, String actual) {
