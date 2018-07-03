@@ -52,8 +52,7 @@ public class NetworkUtils {
       } else {
         if (steemConnectCallback != null) {
           steemConnectCallback.onError(
-              new SteemConnectException("SteemConnectException",
-              "Connection Failed", "Response code " + responseCode));
+              new SteemConnectException("SteemConnectException","Request Body: "+body, "Response code " + responseCode));
         }
       }
     } catch (IOException e) {
