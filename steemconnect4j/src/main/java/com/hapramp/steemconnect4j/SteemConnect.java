@@ -193,12 +193,12 @@ public class SteemConnect {
         RpcJsonUtil.getKeyValuePair("permlink", "\"" + permlink + "\""),
         RpcJsonUtil.getKeyValuePair("title", "\"" + title + "\""),
         RpcJsonUtil.getKeyValuePair("body", "\"" + body + "\""),
-        RpcJsonUtil.getKeyValuePair("json_metadata", jsonMetaData)
+        RpcJsonUtil.getKeyValuePair("json_metadata", "\"" + jsonMetaData + "\"")
     );
     String operations = StringUtils.getOperationsString(
     		StringUtils.getCommanSeparatedArrayString(
     				StringUtils.getCommanSeparatedArrayString("\"comment\"", params)));
-    this.broadcast(StringUtils.getCommanSeparatedArrayString(operations), steemConnectCallback);
+    this.broadcast(operations, steemConnectCallback);
   }
 
   /**
@@ -348,7 +348,7 @@ public class SteemConnect {
   public String sign(String name, Map<String, String> params, String redirectUri) {
     String url = String.format("%s/sign/%s?%s%s", this.steemConnectOptions.getBaseUrl(),
             name, StringUtils.getQueryParamsFromMap(params),
-            redirectUri != null && redirectUri.length() > 0 ? redirectUri : "");
+            redirectUri != null && redirectUri.length() > 0 ? "redirect_uri=" + redirectUri : "");
     return url;
   }
 
