@@ -454,7 +454,7 @@ public class SteemConnectTest {
     map.put("amount", "1.000 STEEM");
     map.put("memo", "done!");
     String real = steemConnect.sign("transfer", map, "<redirectUri>");
-    String signExpected = "https://v2.steemconnect.com/sign/transfer?amount=1.000 STEEM&memo=done!&to=bxute&<redirectUri>";
+    String signExpected = "https://v2.steemconnect.com/sign/transfer?amount=1.000 STEEM&memo=done!&to=bxute&redirect_uri=<redirectUri>";
     assertEquals(signExpected, real);
   }
 }
