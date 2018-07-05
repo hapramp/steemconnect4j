@@ -13,6 +13,15 @@ public class RpcJsonUtil {
   }
 
   /**
+   * stringify a given string.
+   * @param string  string to be stringified
+   * @return        stringified string
+   */
+  public static String stringify(String string) {
+    return string.replaceAll("\"", "\\\\\"");
+  }
+
+  /**
     * formats key value pairs.
     * @param key    key
     * @param value  value
