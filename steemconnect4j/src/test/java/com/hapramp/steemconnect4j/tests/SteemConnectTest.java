@@ -8,7 +8,6 @@ import com.hapramp.steemconnect4j.SteemConnect;
 import com.hapramp.steemconnect4j.SteemConnectCallback;
 import com.hapramp.steemconnect4j.SteemConnectException;
 import com.hapramp.steemconnect4j.SteemConnectOptions;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;

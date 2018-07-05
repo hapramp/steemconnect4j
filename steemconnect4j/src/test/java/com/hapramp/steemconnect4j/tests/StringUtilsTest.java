@@ -150,6 +150,28 @@ public class StringUtilsTest {
     assertEquals(expected, StringUtils.getOperationsString(input));
   }
 
+  @Test
+  public void testStringFormat() {
+    String follower = "bxute";
+    String following = "unittestaccount";
+    String actualString = StringUtils.getCommanSeparatedObjectString(
+        RpcJsonUtil.getKeyValuePair("required_auths", "[]"),
+        RpcJsonUtil.getKeyValuePair("required_posting_auths", "[\"" + follower + "\"]"),
+        RpcJsonUtil.getKeyValuePair("id", "\"follow\""),
+        RpcJsonUtil.getKeyValuePair("json", "\"" + RpcJsonUtil.stringify(
+        StringUtils.getCommanSeparatedArrayString("\"follow\"",
+          StringUtils.getCommanSeparatedObjectString(
+            RpcJsonUtil.getKeyValuePair("follower", "\"" + follower + "\""),
+            RpcJsonUtil.getKeyValuePair("following", "\"" + following + "\""),
+            RpcJsonUtil.getKeyValuePair("what", "[\"blog\"]")))) + "\""
+      )
+    );
+    String exp = "{\"required_auths\":[],\"required_posting_auths\":[\"bxute\"],"
+        + "\"id\":\"follow\",\"json\":\"[\\\"follow\\\",{\\\"follower\\\":\\\"bxute\\\","
+        + "\\\"following\\\":\\\"unittestaccount\\\",\\\"what\\\":[\\\"blog\\\"]}]\"}";
+    assertEquals(exp, actualString);
+  }
+
   private void print(String exp, String actual) {
     System.out.println("Expected: " + exp);
     System.out.println("Actual: " + actual);
