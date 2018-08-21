@@ -213,7 +213,7 @@ public class SteemConnect {
         RpcJsonUtil.getKeyValuePair("permlink", "\"" + permlink + "\""));
     String operations = StringUtils.getOperationsString(
         StringUtils.getCommanSeparatedArrayString(
-        StringUtils.getCommanSeparatedArrayString("\"delete\"", params)));
+        StringUtils.getCommanSeparatedArrayString("\"delete_comment\"", params)));
     this.broadcast(operations, steemConnectCallback);
   }
 
