@@ -202,6 +202,22 @@ public class SteemConnect {
   }
 
   /**
+   * delete a comment.
+   * @param author               author of the comment to be deleted.
+   * @param permlink             permlink of the comment to be deleted.
+   * @param steemConnectCallback callback for the response.
+   */
+  public void delete(String author, String permlink, SteemConnectCallback steemConnectCallback) {
+    String params = StringUtils.getCommanSeparatedObjectString(
+        RpcJsonUtil.getKeyValuePair("author", "\"" + author + "\""),
+        RpcJsonUtil.getKeyValuePair("permlink", "\"" + permlink + "\""));
+    String operations = StringUtils.getOperationsString(
+        StringUtils.getCommanSeparatedArrayString(
+        StringUtils.getCommanSeparatedArrayString("\"delete\"", params)));
+    this.broadcast(operations, steemConnectCallback);
+  }
+
+  /**
   * reblogs any content.
   * @param account                account of author
   * @param author                 author of reblog
