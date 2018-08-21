@@ -23,7 +23,7 @@ allprojects {
 
 ```groovy
 dependencies {
-  implementation 'com.github.hapramp:steemconnect4j:v1.2'
+  implementation 'com.github.hapramp:steemconnect4j:v1.3'
 }
 ```
 
@@ -272,9 +272,26 @@ steemConnect.comment("parentAuthor",
 
 });
 ```
-
 ---
 
+## Delete
+
+```java
+steemConnect.delete("author",
+		    "permlink",
+		    new SteemConnectCallback() {
+   @Override
+   public void onResponse(String response) {
+
+   }
+
+   @Override
+   public void onError(SteemConnectException e) {
+
+});
+```
+
+---
 
 ## Generate hot signing link
 
