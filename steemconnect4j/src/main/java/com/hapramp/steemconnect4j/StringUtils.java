@@ -1,6 +1,5 @@
 package com.hapramp.steemconnect4j;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class StringUtils {
