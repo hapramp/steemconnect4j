@@ -346,7 +346,9 @@ public class SteemConnect {
   * @param steemConnectCallback  callback for response.
   */
   public void revokeToken(SteemConnectCallback steemConnectCallback) {
-    String body = RpcJsonUtil.getObjectString("token", this.steemConnectOptions.getAccessToken());
+    String body = RpcJsonUtil.getObjectString("\"token\"", "\""
+        + this.steemConnectOptions.getAccessToken()
+        + "\"");
     this.send(Route.REVOKE_TOKEN, HttpMethod.POST, body, steemConnectCallback);
     this.removeAccessToken();
   }
