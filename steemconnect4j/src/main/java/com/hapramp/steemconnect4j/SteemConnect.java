@@ -2,6 +2,7 @@ package com.hapramp.steemconnect4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class SteemConnect {
@@ -199,6 +200,29 @@ public class SteemConnect {
     		StringUtils.getCommanSeparatedArrayString(
     				StringUtils.getCommanSeparatedArrayString("\"comment\"", params)));
     this.broadcast(operations, steemConnectCallback);
+  }
+
+  /**
+   * Broadcast comment options for a post.
+   * Call this method for: adding beneficieries, payout schemes.
+   * @param author                author of the post.
+   * @param permlink              permlink of the post.
+   * @param percentSteemDollars   percent of steemdollar, rest % will be steempower.
+   * @param beneficiaries         List of beneficiaries.
+   * @param steemConnectCallback  Callback for the operation.
+   */
+  public void commentOption(String author,
+                            String permlink,
+                            int percentSteemDollars,
+                            ArrayList<Beneficiary> beneficiaries,
+                            SteemConnectCallback steemConnectCallback) {
+
+    String params = StringUtils.getCommentOptionStringFormat(author, permlink,
+        percentSteemDollars, beneficiaries);
+    String operations = StringUtils.getOperationsString(
+        StringUtils.getCommanSeparatedArrayString(
+        StringUtils.getCommanSeparatedArrayString("\"comment_options\"", params)));
+    this.broadcast(operations,steemConnectCallback);
   }
 
   /**
