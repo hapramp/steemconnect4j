@@ -85,4 +85,30 @@ public class StringUtils {
   public static String getOperationsString(String value) {
     return "{\"operations\":" + value + "}";
   }
+
+  /**
+   * Formats string for `comment_options` operation.
+   * @param author              author
+   * @param permlink            perlink
+   * @param percentSteemDollars percentSteemDollars
+   * @param beneficiaries       List of beneficiaries
+   * @return                    Formatted string
+   */
+  public static String getCommentOptionStringFormat(String author,
+                                                    String permlink,
+                                                    int percentSteemDollars,
+                                                    ArrayList<Beneficiary>
+                                                      beneficiaries) {
+    return "{" + "\"author\": \"" + author + "\","
+      + "\"permlink\":" + " \"" + permlink + "\","
+      + "\"max_accepted_payout\": \"1000000.000 SBD\","
+      + "\"percent_steem_dollars\": " + percentSteemDollars + ","
+      + "\"allow_votes\": true,"
+      + "\"allow_curation_rewards\": true,"
+      + "\"extensions\": ["
+      + "[0, {"
+      + "\"beneficiaries\": " + beneficiaries.toString() + "}]"
+      + "]"
+      + "}";
+  }
 }

@@ -222,7 +222,7 @@ public class SteemConnect {
     String operations = StringUtils.getOperationsString(
         StringUtils.getCommanSeparatedArrayString(
         StringUtils.getCommanSeparatedArrayString("\"comment_options\"", params)));
-    this.broadcast(operations,steemConnectCallback);
+    this.broadcast(operations, steemConnectCallback);
   }
 
   /**
