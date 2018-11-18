@@ -96,15 +96,18 @@ public class StringUtils {
    */
   public static String getCommentOptionStringFormat(String author,
                                                     String permlink,
+                                                    String maxAcceptedpayout,
+                                                    boolean allowVotes,
+                                                    boolean allowCurationRewards,
                                                     int percentSteemDollars,
                                                     ArrayList<Beneficiary>
                                                       beneficiaries) {
     return "{" + "\"author\": \"" + author + "\","
       + "\"permlink\":" + " \"" + permlink + "\","
-      + "\"max_accepted_payout\": \"1000000.000 SBD\","
+      + "\"max_accepted_payout\": \"" + maxAcceptedpayout + "\","
       + "\"percent_steem_dollars\": " + percentSteemDollars + ","
-      + "\"allow_votes\": true,"
-      + "\"allow_curation_rewards\": true,"
+      + "\"allow_votes\": " + allowVotes + ","
+      + "\"allow_curation_rewards\": " + allowCurationRewards + ","
       + "\"extensions\": ["
       + "[0, {"
       + "\"beneficiaries\": " + beneficiaries.toString() + "}]"

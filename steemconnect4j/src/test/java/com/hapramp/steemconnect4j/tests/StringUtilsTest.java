@@ -180,13 +180,18 @@ public class StringUtilsTest {
     ArrayList<Beneficiary> beneficiaries = new ArrayList<>();
     beneficiaries.add(new Beneficiary("bxute", 2000));
     String formattedString =
-        StringUtils.getCommentOptionStringFormat("bxute",
+        StringUtils.getCommentOptionStringFormat(
+          "bxute",
         "permlink",
-        2000, beneficiaries);
+        "1000000.000 SBD",
+        true,
+          true,
+          10000,
+          beneficiaries);
     String exp = "{" + "\"author\": \"bxute\","
         + "\"permlink\":" + " \"permlink\","
         + "\"max_accepted_payout\": \"1000000.000 SBD\","
-        + "\"percent_steem_dollars\": 2000,"
+        + "\"percent_steem_dollars\": 10000,"
         + "\"allow_votes\": true,"
         + "\"allow_curation_rewards\": true,"
         + "\"extensions\": ["

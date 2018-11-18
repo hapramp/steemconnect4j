@@ -185,8 +185,19 @@ public class SteemConnect {
   * @param jsonMetaData           jsonmetadata of comment
   * @param steemConnectCallback   callback for response
   */
-  public void comment(String parentAuthor, String parentPermlink, String author, String permlink,
-      String title, String body, String jsonMetaData, SteemConnectCallback steemConnectCallback) {
+  public void comment(String parentAuthor,
+                      String parentPermlink,
+                      String author,
+                      String permlink,
+                      String title,
+                      String body,
+                      String jsonMetaData,
+                      String maxAcceptedPayout,
+                      int percentSteemDollars,
+                      boolean allowVotes,
+                      boolean allowCurationRewards,
+                      ArrayList<Beneficiary> beneficiaries,
+                      SteemConnectCallback steemConnectCallback) {
     String params = StringUtils.getCommanSeparatedObjectString(
         RpcJsonUtil.getKeyValuePair("parent_author", "\"" + parentAuthor + "\""),
         RpcJsonUtil.getKeyValuePair("parent_permlink", "\"" + parentPermlink + "\""),
@@ -196,32 +207,22 @@ public class SteemConnect {
         RpcJsonUtil.getKeyValuePair("body", "\"" + body + "\""),
         RpcJsonUtil.getKeyValuePair("json_metadata", "\"" + jsonMetaData + "\"")
     );
+    String config = StringUtils.getCommentOptionStringFormat(
+        author,
+        permlink,
+        maxAcceptedPayout,
+        allowVotes,
+        allowCurationRewards,
+        percentSteemDollars,
+        beneficiaries);
+
     String operations = StringUtils.getOperationsString(
     		StringUtils.getCommanSeparatedArrayString(
-    				StringUtils.getCommanSeparatedArrayString("\"comment\"", params)));
-    this.broadcast(operations, steemConnectCallback);
-  }
-
-  /**
-   * Broadcast comment options for a post.
-   * Call this method for: adding beneficieries, payout schemes.
-   * @param author                author of the post.
-   * @param permlink              permlink of the post.
-   * @param percentSteemDollars   percent of steemdollar, rest % will be steempower.
-   * @param beneficiaries         List of beneficiaries.
-   * @param steemConnectCallback  Callback for the operation.
-   */
-  public void commentOption(String author,
-                            String permlink,
-                            int percentSteemDollars,
-                            ArrayList<Beneficiary> beneficiaries,
-                            SteemConnectCallback steemConnectCallback) {
-
-    String params = StringUtils.getCommentOptionStringFormat(author, permlink,
-        percentSteemDollars, beneficiaries);
-    String operations = StringUtils.getOperationsString(
-        StringUtils.getCommanSeparatedArrayString(
-        StringUtils.getCommanSeparatedArrayString("\"comment_options\"", params)));
+    		  StringUtils.getCommanSeparatedArrayString("\"comment\"",
+            params),
+        StringUtils.getCommanSeparatedArrayString("\"comment_options\"",
+        config))
+    );
     this.broadcast(operations, steemConnectCallback);
   }
 

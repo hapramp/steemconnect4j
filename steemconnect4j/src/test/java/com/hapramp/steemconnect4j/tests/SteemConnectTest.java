@@ -8,6 +8,8 @@ import com.hapramp.steemconnect4j.SteemConnect;
 import com.hapramp.steemconnect4j.SteemConnectCallback;
 import com.hapramp.steemconnect4j.SteemConnectException;
 import com.hapramp.steemconnect4j.SteemConnectOptions;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -264,7 +266,11 @@ public class SteemConnectTest {
     try {
       steemConnect.comment("parent_author", "parent_permlink",
           "title", "body", "json",
-          "author", "permlink", new SteemConnectCallback() {
+          "author", "permlink", "0 SBD",
+          10000,
+          true,
+          true, new ArrayList<>(),
+          new SteemConnectCallback() {
             @Override
             public void onResponse(String response) {
               assertTrue(response.length() > 0);
