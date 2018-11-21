@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.hapramp.steemconnect4j.Beneficiary;
 import com.hapramp.steemconnect4j.HttpMethod;
 import com.hapramp.steemconnect4j.NetworkUtils;
 import com.hapramp.steemconnect4j.Route;
@@ -12,6 +13,8 @@ import com.hapramp.steemconnect4j.SteemConnectCallback;
 import com.hapramp.steemconnect4j.SteemConnectException;
 import com.hapramp.steemconnect4j.SteemConnectOptions;
 import com.hapramp.steemconnect4j.StringUtils;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -170,6 +173,38 @@ public class StringUtilsTest {
         + "\"id\":\"follow\",\"json\":\"[\\\"follow\\\",{\\\"follower\\\":\\\"bxute\\\","
         + "\\\"following\\\":\\\"unittestaccount\\\",\\\"what\\\":[\\\"blog\\\"]}]\"}";
     assertEquals(exp, actualString);
+  }
+
+  @Test
+  public void testCommentOptionStringFormat() {
+    ArrayList<Beneficiary> beneficiaries = new ArrayList<>();
+    beneficiaries.add(new Beneficiary("bxute", 2000));
+    String formattedString =
+        StringUtils.getCommentOptionStringFormat(
+          "bxute",
+        "permlink",
+        "1000000.000 SBD",
+        true,
+          true,
+          10000,
+          beneficiaries);
+    String exp = "{" + "\"author\": \"bxute\","
+        + "\"permlink\":" + " \"permlink\","
+        + "\"max_accepted_payout\": \"1000000.000 SBD\","
+        + "\"percent_steem_dollars\": 10000,"
+        + "\"allow_votes\": true,"
+        + "\"allow_curation_rewards\": true,"
+        + "\"extensions\": ["
+        + "[0, {"
+        + "\"beneficiaries\": [{"
+        + "\"account\":\"bxute\","
+        + "\"weight\":2000"
+        + "}]"
+        + "}]"
+        + "]"
+        + "}";
+    assertEquals(exp, formattedString);
+    print(exp, formattedString);
   }
 
   private void print(String exp, String actual) {

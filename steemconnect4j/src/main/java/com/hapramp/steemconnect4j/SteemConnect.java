@@ -2,6 +2,7 @@ package com.hapramp.steemconnect4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class SteemConnect {
@@ -184,8 +185,19 @@ public class SteemConnect {
   * @param jsonMetaData           jsonmetadata of comment
   * @param steemConnectCallback   callback for response
   */
-  public void comment(String parentAuthor, String parentPermlink, String author, String permlink,
-      String title, String body, String jsonMetaData, SteemConnectCallback steemConnectCallback) {
+  public void comment(String parentAuthor,
+                      String parentPermlink,
+                      String author,
+                      String permlink,
+                      String title,
+                      String body,
+                      String jsonMetaData,
+                      String maxAcceptedPayout,
+                      int percentSteemDollars,
+                      boolean allowVotes,
+                      boolean allowCurationRewards,
+                      ArrayList<Beneficiary> beneficiaries,
+                      SteemConnectCallback steemConnectCallback) {
     String params = StringUtils.getCommanSeparatedObjectString(
         RpcJsonUtil.getKeyValuePair("parent_author", "\"" + parentAuthor + "\""),
         RpcJsonUtil.getKeyValuePair("parent_permlink", "\"" + parentPermlink + "\""),
@@ -195,9 +207,22 @@ public class SteemConnect {
         RpcJsonUtil.getKeyValuePair("body", "\"" + body + "\""),
         RpcJsonUtil.getKeyValuePair("json_metadata", "\"" + jsonMetaData + "\"")
     );
+    String config = StringUtils.getCommentOptionStringFormat(
+        author,
+        permlink,
+        maxAcceptedPayout,
+        allowVotes,
+        allowCurationRewards,
+        percentSteemDollars,
+        beneficiaries);
+
     String operations = StringUtils.getOperationsString(
     		StringUtils.getCommanSeparatedArrayString(
-    				StringUtils.getCommanSeparatedArrayString("\"comment\"", params)));
+    		  StringUtils.getCommanSeparatedArrayString("\"comment\"",
+            params),
+        StringUtils.getCommanSeparatedArrayString("\"comment_options\"",
+        config))
+    );
     this.broadcast(operations, steemConnectCallback);
   }
 
