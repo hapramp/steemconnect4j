@@ -255,13 +255,24 @@ public class SteemConnect {
         RpcJsonUtil.getKeyValuePair("required_auths", "[]"),
         RpcJsonUtil.getKeyValuePair("required_posting_auths", "[\"" + account + "\"]"),
         RpcJsonUtil.getKeyValuePair("id", "\"follow\""),
-        RpcJsonUtil.getKeyValuePair("json",  StringUtils.getCommanSeparatedArrayString("\"reblog\"",
-            StringUtils.getCommanSeparatedObjectString(account, author, permlink)))
-    );
+        RpcJsonUtil.getKeyValuePair("json",
+        "\""
+          + StringUtils.stringify(
+          StringUtils.getCommanSeparatedArrayString(
+            "\"reblog\"",
+            "{\"account\":\""
+              + account
+              + "\",\"author\":\""
+              + author
+              + "\",\"permlink\":\""
+              + permlink
+              + "\"}"))
+          + "\""
+      ));
 
     String operation = StringUtils.getOperationsString(
-    		StringUtils.getCommanSeparatedArrayString(
-    		StringUtils.getCommanSeparatedArrayString("\"custom_json\"", params)));
+        StringUtils.getCommanSeparatedArrayString(
+        StringUtils.getCommanSeparatedArrayString("\"custom_json\"", params)));
     this.broadcast(operation, steemConnectCallback);
   }
 
