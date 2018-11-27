@@ -114,4 +114,16 @@ public class StringUtils {
       + "]"
       + "}";
   }
+
+  /**
+   * Stringify a given string.
+   * @param s string to be stringified
+   * @return strigified string
+   */
+  public static String stringify(String s) {
+    s = s.replace("\n", "\\n");
+    s = s.replace("\"", "\\\"");
+    s = s.replace("\\\\", "\\\\\\");
+    return s;
+  }
 }
