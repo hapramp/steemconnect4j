@@ -255,14 +255,21 @@ steemConnect.vote("voter", "author", "permlink", "weight", new SteemConnectCallb
 ## Comment
 
 ```java
-steemConnect.comment("parentAuthor",
-		    "parentPermlink",
-		    "author",
-		    "permlink",
-		    "title",
-		    "body",
-		    "jsonmetadata",
-		    new SteemConnectCallback() {
+ArrayList<Beneficiary> beneficiaries = new ArrayList<>();
+        beneficiaries.add(new Beneficiary(LocalConfig.BENEFICIARY_ACCOUNT, LocalConfig.BENEFICIARY_WEIGHT));
+        steemConnect.comment("",
+          "parent_permlink",
+          "username",
+          "permlink",
+          "title",
+          "body",
+          "json_metadata",
+          "maxAcceptedPayout",  //0.000 SBD to decline payout
+          percentSteemDollars,
+          allowVote,
+          allowCurationRewards,
+          beneficiaries,
+          new SteemConnectCallback()  {
    @Override
    public void onResponse(String response) {
 
