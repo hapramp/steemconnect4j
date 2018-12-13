@@ -102,7 +102,8 @@ So let us see the differences,
 ```java
 String loginUrl = steemConnect.getLoginUrl(false);  //wantCode: false
 ```
-**Login URL:** `https://v2.steemconnect.com/oauth2/authorize?client_id=&redirect_uri=%2F&scope=`
+**Login URL:** `https://steemconnect.com/oauth2/authorize?client_id=&redirect_uri=%2F&scope=`
+> Note: Donot use `https://v2.steemconnect.com` as base url else you will get 401(UnAuthrorized) response code in further requests.
 
 **Redirected URL:** `https://<callback-url>?access_token=eyJhb....0o&expires_in=604800&username=<some-user-name>`
 
@@ -116,7 +117,7 @@ String loginUrl = steemConnect.getLoginUrl(false);  //wantCode: false
 ```java
 String loginUrl = steemConnect.getLoginUrl(true);  //wantCode: true
 ```
-**Login URL:** `https://v2.steemconnect.com/oauth2/authorize?client_id=&response_type=code&redirect_uri=%2F&scope=`
+**Login URL:** `https://steemconnect.com/oauth2/authorize?client_id=&response_type=code&redirect_uri=%2F&scope=`
 
 **Redirected URL:** `https://<callback-url>?code=eyJhb....0o`
 
@@ -135,7 +136,7 @@ String loginUrl = steemConnect.getLoginUrl(true);  //wantCode: true
 ---
 ## What is Refresh Token ?
 
-Refresh tokens given from https://v2.steemconnect.com/api/oauth2/authorize when scope contains offline. The purpose is for headless operations to have access. Refresh tokens are not the same as access tokens. Access tokens allow access, but have an expiration of about 7 days. Refresh tokens do not expire, but instead of access they can be used to continuously retrieve access tokens.
+Refresh tokens given from https://steemconnect.com/api/oauth2/authorize when scope contains offline. The purpose is for headless operations to have access. Refresh tokens are not the same as access tokens. Access tokens allow access, but have an expiration of about 7 days. Refresh tokens do not expire, but instead of access they can be used to continuously retrieve access tokens.
 
 ---
 ## Getting Refresh Token from `code`
